@@ -272,9 +272,9 @@
     line-height: 20px;
     height: 40px;
     /* margin: 16px 0; */
-    padding: 0px 0 3px 0;
-    width: 60px;
-    text-align: center;
+    padding: 0px 0 3px 10px;
+    width: 100%;
+    /* text-align: center; */
     float: left;
     -webkit-appearance: none;
     -moz-appearance: textfield;
@@ -421,9 +421,9 @@
 
   .borderbox {
     border: 2px solid #1b5f97;
-    height: 40px;
-    width: 132px;
-    display: inline-block;
+    /* height: 40px;
+    width: 132px; */
+    /* display: inline-block; */
   }
 
   .pound {
@@ -452,8 +452,8 @@
 
   <h3>Find out the value that green space adds to your home</h3>
 
-  <legend>Enter your postcode</legend>
-  <div class="input-group">
+  <legend>Enter a postcode in England and Wales (sorry Scotland and NI)</legend>
+  <div class="borderbox input-group">
     <input type="text" class="search-control" placeholder="Search">
     <div class="input-group-addon search-group">
       <button type="submit" style="background: none;border:0;">
@@ -462,6 +462,8 @@
       </button>
     </div>
   </div>
+
+
   <legend>Property Type</legend>
   <div class="select" style="display:inline-block;margin-left:8px;">
 
@@ -476,6 +478,18 @@
       <option value="Bungalow">Bungalow</option>
 
     </select>
+
+    <select id="propertyType" data-placeholder="Select an option">
+      <option selected=""></option>
+      <option value="Terrace">Terrace</option>
+      <option value="Semi-detached">Semi-detached</option>
+      <option value="Detached">Detached</option>
+
+      <option value="Flat">Flat</option>
+
+      <option value="Bungalow">Bungalow</option>
+    </select>
+
 
   </div>
   <legend>Property price</legend>
@@ -508,16 +522,18 @@
   <script src="js/chroma.min.js"></script>
   <script src="https://cdn.ons.gov.uk/vendor/pym/1.3.2/pym.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/autonumeric@4.5.4"></script>
-
-
   <script src='js/mapbox-gl.js'></script>
   <script src='js/turf.min.js'></script>
   <script src="js/script.js"></script>
+
+
 
   <script type="application/javascript">
     anElement = new AutoNumeric('#property', 0, {
       decimalPlaces: 0
     });
+
+    $('#propertyType').chosen({allow_single_deselect: true})
 
     console.log(anElement.getNumber())
   </script>

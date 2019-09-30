@@ -1,4 +1,3 @@
-
 //test if browser supports webGL
 
 if(Modernizr.webgl) {
@@ -8,38 +7,38 @@ if(Modernizr.webgl) {
 
 	//Load data and config file
 	d3.queue()
-		.defer(d3.csv, "data/chnglem.csv")
+		// .defer(d3.csv, "data/chnglem.csv")
 		.defer(d3.json, "data/config.json")
 		.defer(d3.json, "data/geog.json")
 		.await(ready);
 
 
-	function ready (error, data, config, geog){
+	function ready (error, config, geog){
 
 		//Set up global variables
 		dvc = config.ons;
-		oldAREACD = "";
-		firsthover = true;
+		// oldAREACD = "";
+		// firsthover = true;
 
 
 		//get column name
-		for (var column in data[0]) {
-			if (column == 'AREACD') continue;
-			if (column == 'AREANM') continue;
-			dvc.varname = column;
-
-		}
+		// for (var column in data[0]) {
+		// 	if (column == 'AREACD') continue;
+		// 	if (column == 'AREANM') continue;
+		// 	dvc.varname = column;
+		//
+		// }
 
 		//set title of page
 		//Need to test that this shows up in GA
 		document.title = dvc.maptitle;
 
 		//Fire design functions
-		selectlist(data);
+		// selectlist(data);
 
 		//Set up number formats
-		displayformat = d3.format("." + dvc.displaydecimals + "f");
-		legendformat = d3.format("." + dvc.legenddecimals + "f");
+		// displayformat = d3.format("." + dvc.displaydecimals + "f");
+		// legendformat = d3.format("." + dvc.legenddecimals + "f");
 
 		//set up basemap
 		map = new mapboxgl.Map({
@@ -51,7 +50,7 @@ if(Modernizr.webgl) {
 		  attributionControl: false
 		});
 		//add fullscreen option
-		map.addControl(new mapboxgl.FullscreenControl());
+		// map.addControl(new mapboxgl.FullscreenControl());
 
 		// Add zoom and rotation controls to the map.
 		map.addControl(new mapboxgl.NavigationControl());
@@ -64,11 +63,11 @@ if(Modernizr.webgl) {
 
 
 		// Add geolocation controls to the map.
-		map.addControl(new mapboxgl.GeolocateControl({
-			positionOptions: {
-				enableHighAccuracy: true
-			}
-		}));
+		// map.addControl(new mapboxgl.GeolocateControl({
+		// 	positionOptions: {
+		// 		enableHighAccuracy: true
+		// 	}
+		// }));
 
 		//add compact attribution
 		map.addControl(new mapboxgl.AttributionControl({
@@ -77,66 +76,66 @@ if(Modernizr.webgl) {
 
 
 
-		addFullscreen();
+		// addFullscreen();
 
 		//set up d3 color scales
 
-		rateById = {};
-		areaById = {};
-
-		data.forEach(function(d) { rateById[d.AREACD] = +eval("d." + dvc.varname); areaById[d.AREACD] = d.AREANM});
+		// rateById = {};
+		// areaById = {};
+		//
+		// data.forEach(function(d) { rateById[d.AREACD] = +eval("d." + dvc.varname); areaById[d.AREACD] = d.AREANM});
 
 
 		//Flatten data values and work out breaks
-		var values =  data.map(function(d) { return +eval("d." + dvc.varname); }).filter(function(d) {return !isNaN(d)}).sort(d3.ascending);
-
-		if(config.ons.breaks =="jenks") {
-			breaks = [];
-
-			ss.ckmeans(values, (dvc.numberBreaks)).map(function(cluster,i) {
-				if(i<dvc.numberBreaks-1) {
-					breaks.push(cluster[0]);
-				} else {
-					breaks.push(cluster[0])
-					//if the last cluster take the last max value
-					breaks.push(cluster[cluster.length-1]);
-				}
-			});
-		}
-		else if (config.ons.breaks == "equal") {
-			breaks = ss.equalIntervalBreaks(values, dvc.numberBreaks);
-		}
-		else {breaks = config.ons.breaks;};
-
-
-		//round breaks to specified decimal places
-		breaks = breaks.map(function(each_element){
-			return Number(each_element.toFixed(dvc.legenddecimals));
-		});
-
-		//work out halfway point (for no data position)
-		midpoint = breaks[0] + ((breaks[dvc.numberBreaks] - breaks[0])/2)
-
-		//Load colours
-		if(typeof dvc.varcolour === 'string') {
-			// colour = colorbrewer[dvc.varcolour][dvc.numberBreaks];
-			color=chroma.scale(dvc.varcolour).colors(dvc.numberBreaks)
-			colour=[]
-		  color.forEach(function(d){colour.push(chroma(d).darken(0.4).saturate(0.6).hex())})
-		} else {
-			colour = dvc.varcolour;
-		}
-
-		//set up d3 color scales
-		color = d3.scaleThreshold()
-				.domain(breaks.slice(1))
-				.range(colour);
-
-		//now ranges are set we can call draw the key
-		createKey(config);
+		// var values =  data.map(function(d) { return +eval("d." + dvc.varname); }).filter(function(d) {return !isNaN(d)}).sort(d3.ascending);
+		//
+		// if(config.ons.breaks =="jenks") {
+		// 	breaks = [];
+		//
+		// 	ss.ckmeans(values, (dvc.numberBreaks)).map(function(cluster,i) {
+		// 		if(i<dvc.numberBreaks-1) {
+		// 			breaks.push(cluster[0]);
+		// 		} else {
+		// 			breaks.push(cluster[0])
+		// 			//if the last cluster take the last max value
+		// 			breaks.push(cluster[cluster.length-1]);
+		// 		}
+		// 	});
+		// }
+		// else if (config.ons.breaks == "equal") {
+		// 	breaks = ss.equalIntervalBreaks(values, dvc.numberBreaks);
+		// }
+		// else {breaks = config.ons.breaks;};
+		//
+		//
+		// //round breaks to specified decimal places
+		// breaks = breaks.map(function(each_element){
+		// 	return Number(each_element.toFixed(dvc.legenddecimals));
+		// });
+		//
+		// //work out halfway point (for no data position)
+		// midpoint = breaks[0] + ((breaks[dvc.numberBreaks] - breaks[0])/2)
+		//
+		// //Load colours
+		// if(typeof dvc.varcolour === 'string') {
+		// 	// colour = colorbrewer[dvc.varcolour][dvc.numberBreaks];
+		// 	color=chroma.scale(dvc.varcolour).colors(dvc.numberBreaks)
+		// 	colour=[]
+		//   color.forEach(function(d){colour.push(chroma(d).darken(0.4).saturate(0.6).hex())})
+		// } else {
+		// 	colour = dvc.varcolour;
+		// }
+		//
+		// //set up d3 color scales
+		// color = d3.scaleThreshold()
+		// 		.domain(breaks.slice(1))
+		// 		.range(colour);
+		//
+		// //now ranges are set we can call draw the key
+		// createKey(config);
 
 		//convert topojson to geojson
-		for(key in geog.objects){
+		for(var key in geog.objects){
 			var areas = topojson.feature(geog, geog.objects[key])
 		}
 
@@ -149,10 +148,10 @@ if(Modernizr.webgl) {
 		},1000);
 
 		//and add properties to the geojson based on the csv file we've read in
-		areas.features.map(function(d,i) {
-
-		  d.properties.fill = color(rateById[d.properties.AREACD])
-		});
+		// areas.features.map(function(d,i) {
+		//
+		//   d.properties.fill = "#206095"
+		// });
 
 
 		map.on('load', function() {
@@ -165,10 +164,7 @@ if(Modernizr.webgl) {
 				  'source': 'area',
 				  'layout': {},
 				  'paint': {
-					  'fill-color': {
-							type: 'identity',
-							property: 'fill',
-					   },
+					  'fill-color': "#206095",
 					  'fill-opacity': 0.7,
 					  'fill-outline-color': '#fff'
 				  }
@@ -259,13 +255,13 @@ if(Modernizr.webgl) {
 			};
 
 			//Highlight stroke on mouseover (and show area information)
-			map.on("mousemove", "area", onMove);
+			// map.on("mousemove", "area", onMove);
 
 			// Reset the state-fills-hover layer's filter when the mouse leaves the layer.
-			map.on("mouseleave", "area", onLeave);
+			// map.on("mouseleave", "area", onLeave);
 
 			//Add click event
-			map.on("click", "area", onClick);
+			// map.on("click", "area", onClick);
 
 			//get location on click
 			d3.select(".mapboxgl-ctrl-geolocate").on("click",geolocate);

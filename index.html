@@ -12,10 +12,11 @@
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
   <link href='css/mapbox-gl.css' rel='stylesheet' />
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-  <link rel="stylesheet" href="css/chosen.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+  <link href="./css/chosen.css" rel="stylesheet" />
   <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"> -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link href="./css/bootstrap-grid.css" rel="stylesheet" />
 
 
   <style>
@@ -76,7 +77,7 @@
 		}
 
 	    #map {
-			position:absolute;
+			position:relative;
 			top:0px;
 			margin-top:120px;
 			height: 500px;
@@ -421,16 +422,16 @@
 
   .borderbox {
     border: 2px solid #1b5f97;
-    /* height: 40px;
-    width: 132px; */
+    /* height: 40px;*/
+    width: 100%;
     /* display: inline-block; */
   }
 
   .pound {
     float: left;
     display: inline;
-    height: 36px;
-    width: 34px;
+    height: 40px;
+    width: 40px;
     font-size: 21px;
     background-color: #5F7682;
     color: #fff;
@@ -439,6 +440,12 @@
     font-weight: 700;
     box-sizing: border-box;
     padding-top: 4px;
+  }
+
+
+  input, select {
+      font-family: "Open Sans",Helvetica,Arial,sans-serif;
+      font-size: 14px;
   }
 
 </style>
@@ -463,42 +470,32 @@
     </div>
   </div>
 
+  <div class="row">
+    <div class="col-xs-12 col-sm-6">
+      <legend>Property Type</legend>
 
-  <legend>Property Type</legend>
-  <div class="select" style="display:inline-block;margin-left:8px;">
+      <select id="propertyType" class="chosen-select" data-placeholder="Select an option">
+        <option></option>
+        <option id="Terrace" value="Terrace">Terrace</option>
+        <option id="Semi" value="Semi-detached">Semi-detached</option>
+        <option id="Detached" value="Detached">Detached</option>
+        <option id="Flat" value="Flat">Flat</option>
+        <option id="Bungalow" value="Bungalow">Bungalow</option>
+      </select>
 
-    <select id="timePeriod" class="bold" name="select">
-      <option selected="" disabled="">Select an option</option>
-      <option value="Terrace">Terrace</option>
-      <option value="Semi-detached">Semi-detached</option>
-      <option value="Detached">Detached</option>
+    </div>
+    <div class="col-xs-12 col-sm-6">
 
-      <option value="Flat">Flat</option>
-
-      <option value="Bungalow">Bungalow</option>
-
-    </select>
-
-    <select id="propertyType" data-placeholder="Select an option">
-      <option selected=""></option>
-      <option value="Terrace">Terrace</option>
-      <option value="Semi-detached">Semi-detached</option>
-      <option value="Detached">Detached</option>
-
-      <option value="Flat">Flat</option>
-
-      <option value="Bungalow">Bungalow</option>
-    </select>
+      <legend>Property price</legend>
+      <div class="borderbox" style="float:left;">
+        <div class="pound">£</div>
+        <input style="width:calc(100% - 40px); text-align:right;padding-right:5px;" class="bold" id='property' type="text" name="property">
+      </div>
 
 
+    </div>
   </div>
-  <legend>Property price</legend>
-  <div class="borderbox" style="float:left;">
-    <div class="pound">£</div>
-    <input style="width:73%" class="bold" id='property' type="text" name="property">
-  </div>
-
-  <div>
+  <div style="clear:left;padding-top:25px;">
     <button id="startButton" type="button" class="btn btn-group__btn btn--primary btn--green btn--primary-disabled">Get results</button>
   </div>
 
@@ -509,13 +506,12 @@
 
   </div>
 
-  <!--<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="http://d3js.org/topojson.v1.min.js"></script>-->
-
+  <!--<script src="http://d3js.org/d3.v3.min.js"></script>-->
+  <script src="http://d3js.org/topojson.v1.min.js"></script>
+  <script src="js/modernizr.min.js"></script>
   <script src="https://cdn.ons.gov.uk/vendor/d3/4.13.0/d3.min.js"></script>
   <script src="js/topojson.v2.min.js"></script>
   <script src="js/simple-statistics.min.js"></script>
-  <script src="js/modernizr.min.js"></script>
   <script src="https://cdn.ons.gov.uk/vendor/jquery/2.1.4/jquery.min.js"></script>
   <script src="js/chosen.jquery.js"></script>
   <script src="js/limit.js"></script>
@@ -533,7 +529,12 @@
       decimalPlaces: 0
     });
 
-    $('#propertyType').chosen({allow_single_deselect: true})
+
+
+    $('#propertyType').chosen({
+      allow_single_deselect: true,
+      disable_search: true
+    })
 
     console.log(anElement.getNumber())
   </script>

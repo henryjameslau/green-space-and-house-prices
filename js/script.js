@@ -165,10 +165,27 @@ if(Modernizr.webgl) {
 				  'layout': {},
 				  'paint': {
 					  'fill-color': "#206095",
-					  'fill-opacity': 0.7,
+					  'fill-opacity': 0.5,
 					  'fill-outline-color': '#fff'
 				  }
 			  });
+
+				// map.addLayer({
+				// 	"id": "greenspace",
+				// 	'type': 'fill',
+				// 	"source": {
+				// 		"type": "vector",
+				// 		"tiles": ["http://0.0.0.0:8000/{z}/{x}/{y}.pbf"],
+				// 		"minzoom": 4
+				// 	},
+				// 	"source-layer": "greenspace",
+				// 	"background-color": "#ccc",
+				// 	'paint': {
+				// 		'fill-color': "#0F8243",
+				// 		'fill-opacity': 0.7,
+				// 		'fill-outline-color': '#fff'
+				// 		}
+				// });
 
 			//Get current year for copyright
 			today = new Date();

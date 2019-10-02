@@ -122,13 +122,6 @@
 
   /* Postcode search */
 
-  #searchBox{
-    position: relative;
-    top: 1px;
-    display: inline-block;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
 
   .input-group {
     position: relative;
@@ -189,6 +182,7 @@
         border-left-width: 0px;
     /* font-size: 1.3em; */
 }
+
 
 
 .visuallyhidden {
@@ -530,6 +524,10 @@ g.tick text{
   font-size: 18px;
 }
 
+.slider text {
+    font-size: 18px;
+}
+
 </style>
 
 </head>
@@ -541,7 +539,8 @@ g.tick text{
 
   <h3>Find out the value that green space adds to your home</h3>
 
-  <legend>Enter a postcode in England and Wales (sorry Scotland and NI)</legend>
+  <legend>Enter a postcode in England and Wales</legend>
+  <p style="margin-top:0px;margin-bottom:10px;">This tool only uses data for urban areas</p>
   <div class="borderbox input-group">
     <input id="postcodeInput" type="text" class="search-control" placeholder="Search">
     <div class="input-group-addon search-group">
@@ -644,7 +643,6 @@ g.tick text{
 
     document.getElementById("searchButton").addEventListener("click", function() {
       getCodes1(document.getElementById("postcodeInput").value)
-      $('#valueDueToGreenSpace').html(Math.round(Math.random() * 10000))
     })
 
     width=document.body.clientWidth
@@ -679,7 +677,6 @@ g.tick text{
 
     gSimple.call(sliderSimple);
 
-
     function getCodes1(myValue2) {
 
       console.log(myValue2)
@@ -696,25 +693,70 @@ g.tick text{
         },
         success: function(data1) {
           if (data1.status == 200) {
-            console.log(data1.result)
-            moveMap(data1.result.latitude, data1.result.longitude)
+            //check if in England and Wales
+            if(data1.result.country=="England"||data1.result.country=="Wales"){
+              //check whether urban area
+              d3.csv("data/split/"+data1.result.outcode+".csv",function(data){
+                row=data.filter(function(e){return e.postcode_end==data1.result.incode})
+                console.log(row)
+                if(row[0].urban==0){
+                  $("#pcError").text("Sorry, your postcode is not in an urban area")
+                }else if(row[0].urban==1){
+                  //check if more than 500m away?
+                  if(+row[0].dist_to_nearest_pags>500){
+                    sliderSimple.value(500)
+                  }else{
+                    sliderSimple.value(+row[0].dist_to_nearest_pags)
+                  }
+                }
 
-            // create a HTML element for each feature
-            var el = document.createElement('div');
-            el.className = 'marker';
-
-            // make a marker for each feature and add to the map
-            new mapboxgl.Marker(el)
-              .setLngLat([data1.result.longitude, data1.result.latitude])
-              .addTo(map);
+              })
+            }else{
+              $("#pcError").text("Sorry, our data only covers England and Wales")
+            }
 
           } else {
-            $("#pcError").text("Sorry, that's not a valid postcode. Try an English or Welsh postcode eg PO15 5RR.")
+            $("#pcError").text("Sorry, that's not a valid postcode.")
           }
         }
       });
     } //end getCodes1
 
+    function checkPostcode(code){
+      console.log(code)
+      // var myURIstring = encodeURI("https://api.postcodes.io/postcodes/" + code);
+      // $.support.cors = true;
+      // $.ajax({
+      //   type: "GET",
+      //   crossDomain: true,
+      //   dataType: "jsonp",
+      //   url: myURIstring,
+      //   error: function(xhr, ajaxOptions, thrownError) {
+      //     $("#pcError").text("Sorry, that's not a valid postcode.").show();
+      //   },
+      //   success: function(data1) {
+      //     if (data1.status == 200) {
+      //       postcodedata = data1
+
+      // console.log(data1.result)
+      // moveMap(data1.result.latitude, data1.result.longitude)
+      //
+      // // create a HTML element for each feature
+      // var el = document.createElement('div');
+      // el.className = 'marker';
+      //
+      // // make a marker for each feature and add to the map
+      // new mapboxgl.Marker(el)
+      //   .setLngLat([data1.result.longitude, data1.result.latitude])
+      //   .addTo(map);
+      //
+      // $('#valueDueToGreenSpace').html(Math.round(Math.random() * 10000))
+      //     } else {
+      //       $("#pcError").text("Sorry, that's not a valid postcode.")
+      //     }
+      //   }
+      // });
+    }
 
     function moveMap(lat, lon) {
       map.jumpTo({
@@ -722,7 +764,23 @@ g.tick text{
         zoom: 12
       })
 
+    }//end moveMap
+
+    function checkInputs(){
+
+
+      if($("#propertyType").chosen().val()!=""){}
+      if(document.getElementById("property").value>0||document.getElementById("property").value!=""){}
+
+
     }
+
+    function percentageDueToGreenSpace(array,distance){
+
+    }
+
+
+
   </script>
 
   <noscript>

@@ -586,7 +586,7 @@ g.tick text{
   </div>
   <div id="page2" class="d-none">
     <div class="results_box results_box--blue">
-      <h3>The value added by green space to your property is</h3>
+      <h3>The estimated value added to your property by green space is</h3>
       <div class="results_text">
         <p class="odometer" id="valueDueToGreenSpace">10000</p>
       </div>
@@ -622,7 +622,13 @@ g.tick text{
   <script src='js/d3-simple-slider.js' type="text/javascript"></script>
 
   <script type="application/javascript">
+    //load percentage data and store it globally
+    d3.csv("data/effect_pags_tool_short.csv", function(data) {
+      percentageData = data;
+    })
+
     postcodeCheck = false;
+    myArray = [];
 
     anElement = new AutoNumeric('#property', 0, {
       decimalPlaces: 0
@@ -633,7 +639,7 @@ g.tick text{
       disable_search: true
     }).on('change', function(e) {
       checkInputs();
-      propertyType = $('#propertyType').val()
+      propertyTypeValue = $('#propertyType').val()
     })
 
     // console.log(anElement.getNumber())
@@ -712,6 +718,7 @@ g.tick text{
     function checkInputs() {
       if ($("#propertyType").chosen().val() != "") {
         var propTypeCheck = true
+        propertyTypeValue = $('#propertyType').val()
       }
       if (anElement.getNumber() > 0 && document.getElementById("property").value != "") {
         var propertyValueCheck = true
@@ -759,7 +766,10 @@ g.tick text{
           .size(500)
         )
         .fill("#109057")
-      // .on('onchange', console.log("change slider"));
+        .on('onchange', function(d) {
+          var el = document.getElementById('valueDueToGreenSpace')
+          el.innerHTML = propertyprice * percentageDueToGreenSpace(myArray, sliderSimple.value())
+        });
 
       d3.select('div#slider').selectAll("*").remove()
 
@@ -776,6 +786,7 @@ g.tick text{
       //check if more than 500m away?
       if (+row[0].dist_to_nearest_pags > 500) {
         sliderSimple.value(500)
+        distanceToGreenSpace = 500
       } else {
         sliderSimple.value(+row[0].dist_to_nearest_pags)
         distanceToGreenSpace = +row[0].dist_to_nearest_pags
@@ -786,7 +797,9 @@ g.tick text{
         style: 'data/style.json', //stylesheet location
         center: [postcodeiodata.result.longitude, postcodeiodata.result.latitude], // starting position
         zoom: 12, // starting zoom
-        maxZoom: 13, //
+        pitch:75,
+        maxZoom: 20, //
+        minZoom: 4,
         attributionControl: false
       });
 
@@ -794,15 +807,20 @@ g.tick text{
       map.addControl(new mapboxgl.NavigationControl());
 
       // Disable map rotation using right click + drag
-      map.dragRotate.disable();
+      // map.dragRotate.disable();
 
       // Disable map rotation using touch rotation gesture
-      map.touchZoomRotate.disableRotation();
+      // map.touchZoomRotate.disableRotation();
 
       //add compact attribution
       map.addControl(new mapboxgl.AttributionControl({
         compact: true
       }));
+
+      map.addControl(new mapboxgl.ScaleControl({
+        position: 'bottom-right'
+      }));
+
 
       //create a HTML element for each feature
       var el = document.createElement('div');
@@ -813,6 +831,22 @@ g.tick text{
         .setLngLat([postcodeiodata.result.longitude, postcodeiodata.result.latitude])
         .addTo(map);
 
+      map.on('load', function() {
+        map.addLayer({
+          "id": "greenspaces",
+          "type": "fill",
+          "source": {
+            "type": 'vector',
+            "tiles": ['https://cdn.ons.gov.uk/maptiles/t19/{z}/{x}/{y}.pbf']
+          },
+          "source-layer": "greenspace",
+          "background-color": "#ccc",
+          "paint": {
+            'fill-color': "#0F8243",
+          }
+        })
+      })
+
       // map.on('load', function() {
       //     today = new Date();
       //     copyYear = today.getFullYear();
@@ -821,11 +855,57 @@ g.tick text{
       //
       //   })
 
-      }//end showpage2 function
+      console.log(percentageData)
+      myData = percentageData.filter(function(d) {
+        return d.Region == postcodeiodata.result.region
+      }).filter(function(d) {
+        return d.property_type_condensed == propertyTypeValue
+      })
 
-      function percentageDueToGreenSpace(array, distance) {
+      myArray = createArray(myData[0])
 
+      document.getElementById('valueDueToGreenSpace').innerHTML = propertyprice * percentageDueToGreenSpace(myArray, distanceToGreenSpace)
+
+
+    } //end showpage2 function
+
+    function createArray(d) {
+      var array = []
+      array.push(d.pc_diff_0)
+      array.push(d.pc_diff_25)
+      array.push(d.pc_diff_50)
+      array.push(d.pc_diff_75)
+      array.push(d.pc_diff_100)
+      array.push(d.pc_diff_125)
+      array.push(d.pc_diff_150)
+      array.push(d.pc_diff_175)
+      array.push(d.pc_diff_200)
+      array.push(d.pc_diff_225)
+      array.push(d.pc_diff_250)
+      array.push(d.pc_diff_275)
+      array.push(d.pc_diff_300)
+      array.push(d.pc_diff_325)
+      array.push(d.pc_diff_350)
+      array.push(d.pc_diff_375)
+      array.push(d.pc_diff_400)
+      array.push(d.pc_diff_425)
+      array.push(d.pc_diff_450)
+      array.push(d.pc_diff_475)
+      return array
+    }
+
+    function percentageDueToGreenSpace(array, distance) {
+      var distanceArray = [0, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 425, 450, 475, 50000000000]
+      var index = distanceArray.findIndex(function(d) {
+        return d > distance
+      })
+      if (index == 20) {
+        return 0
+      } else {
+        var i = d3.interpolateNumber(array[index - 1], array[index])
+        return i((distance - (distanceArray[index] - 25)) / 25)
       }
+    }
   </script>
 
   <noscript>

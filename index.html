@@ -207,7 +207,6 @@
     display:inline-block;
     background: none;
     border: 0;
-    /* float:right; */
     margin-top:55px;
   }
 
@@ -900,7 +899,8 @@ g.tick text{
         return d > distance
       })
       if (index == 20) {
-        return 0
+        var i = d3.interpolateNumber(array[index - 1], 0)
+        return i((distance - (distanceArray[index] - 25)) / 25)
       } else {
         var i = d3.interpolateNumber(array[index - 1], array[index])
         return i((distance - (distanceArray[index] - 25)) / 25)

@@ -16,7 +16,7 @@
   <link href="./css/chosen.css" rel="stylesheet" />
   <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"> -->
   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
-  <link href="css/bootstrap-grid.css" rel="stylesheet" />
+  <link href="css/bootstrap-grid-custom.css" rel="stylesheet" />
   <link href="css/odometer-theme-default.css" rel="stylesheet" />
 
 
@@ -31,7 +31,27 @@
 		max-width:700px;
 		margin: 0px auto;
 		display:block;
+    color:#206095;
 	}
+
+  h3{
+    font-size: 38px;
+    margin-top:22px;
+  }
+
+  h4{
+    font-size:21pt;
+    font-weight:400;
+    margin-top:14px;
+    margin-bottom:0px;
+  }
+
+  p{
+    font-size: 18px;
+    margin-top:6px;
+    font-weight:400;
+    margin-bottom:0px;
+  }
 
 	#header{
 		height:70px;
@@ -47,38 +67,9 @@
 			height: 300px;
 			width: 100%;
 		}
-
-		#selectNav {
-			position:absolute;
-			top:0px;
-			left:0px;
-			width:30%;
-			height:40px;
-			background-color:rgba(255,255,255,0.8);
-			z-index:1;
-		}
-
-		#keydiv {
-			position:absolute;
-			top:40px;
-			left:0px;
-			width:30%;
-			height:80px;
-			background-color:rgba(255,255,255,0.8);
-			z-index:1;
-		}
-
-		#currVal {
-			font-size:14px;
-
-		}
 	}
 
 	@media (max-width: 600px) {
-
-		 body {
-			height: 620px;
-		}
 
 	    #map {
 			position:relative;
@@ -87,31 +78,6 @@
 			height: 300px;
 			width: 100%;
 			overflow:visible;
-		}
-
-		#selectNav {
-			position:absolute;
-			top:-120px;
-			left:0px;
-			width:100%;
-			height:40px;
-			background-color:rgba(255,255,255,0.8);
-			z-index:3;
-		}
-
-		#keydiv {
-			position:absolute;
-			top:-80px;
-			left:0px;
-			width:100%;
-			height:80px;
-			background-color:rgba(255,255,255,0.8);
-			z-index:1;
-		}
-
-		#currVal {
-			font-size:14px;
-
 		}
 
 		.mapboxgl-ctrl-fullscreen {
@@ -127,7 +93,7 @@
     position: relative;
     display: table;
     border-collapse: separate;
-}
+  }
   .input-group-addon{
     display: table-cell;
     width: 1%;
@@ -171,15 +137,15 @@
 
 .search-group {
     border-radius: 0px;
-        border-top-left-radius: 0px;
-        border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
     background-color: #206095;
     color: white;
     /* padding: 6px 3px; */
     border: 0;
-        border-left-color: currentcolor;
-        border-left-style: none;
-        border-left-width: 0px;
+    border-left-color: currentcolor;
+    border-left-style: none;
+    border-left-width: 0px;
     /* font-size: 1.3em; */
 }
 
@@ -187,32 +153,16 @@
 
 .visuallyhidden {
   display: none;
-
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    border: 0;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
 }
 
-  .glyphicon {
-    position: relative;
-    top: 1px;
-    display: inline-block;
-    font-family: 'Glyphicons Halflings';
-    font-style: normal;
-    font-weight: 400;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-.glyphicon-search::before {
-  content: "\e003";
-}
 
   /* Buttons */
 
@@ -252,6 +202,15 @@
     border-radius: 0px;
   }
 
+  .social-btn{
+    width:31%;
+    display:inline-block;
+    background: none;
+    border: 0;
+    /* float:right; */
+    margin-top:55px;
+  }
+
   .btn--select {
     color: #206095;
     border: 2px solid #206095;
@@ -262,6 +221,7 @@
   }
 
   .btn--primary {
+    margin-top:55px;
     background-color: #139060;
   }
 
@@ -301,7 +261,7 @@
     border: none;
     border-radius: 0;
     /* border: 2px solid #1b5f97; */
-    font-size: 20px;
+    font-size: 18px;
     line-height: 20px;
     height: 40px;
     /* margin: 16px 0; */
@@ -348,11 +308,12 @@
     display: block;
     width: 100%;
     padding: 0;
-    font-size: 21px;
+    font-size: 20px;
+    font-weight: 700;
     line-height: inherit;
-    color: #333;
+    color: #206095;
     border: 0;
-    margin: 20px 0 10px 0;
+    margin: 25px 0 0 0;
   }
 
   @-moz-document url-prefix() {
@@ -456,6 +417,7 @@
     border: 2px solid #1b5f97;
     /* height: 40px;*/
     width: 100%;
+    margin-top:25px;
     /* display: inline-block; */
   }
 
@@ -483,11 +445,12 @@
   .marker {
   background-image: url('./images/pin-drop.svg');
   background-size: cover;
-  width: 100px;
-  height: 100px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   cursor: pointer;
   vertical-align: bottom;
+  /* opacity:0.8; */
 }
   .mapboxgl-marker .marker{
     transform: translate(-50%, -100%);
@@ -500,7 +463,8 @@
     width: 100%;
     font-weight: bold;
     line-height: 2em;
-    margin-bottom: 20px;
+    margin-top:40px;
+    margin-bottom: 21px;
 }
 .results_box--blue {
     background-color: #206095;
@@ -528,6 +492,17 @@ g.tick text{
     font-size: 18px;
 }
 
+.parameter-value path{
+  fill:#206095;
+  stroke:white;
+  stroke-width:1.5px;
+}
+.parameter-value path:focus{
+  fill:#206095;
+  stroke:orange;
+  stroke-width:3px;
+}
+
 </style>
 
 </head>
@@ -536,13 +511,14 @@ g.tick text{
   <noscript>
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MBCBVQS" height="0" width="0" style="display:none;visibility:hidden"></iframe>
   </noscript>
+  <hr style="border: 0;height: 0;border-top: 6px solid #D0D2D3;">
   <div id="page1">
     <h3>Find out the value that green space adds to your home</h3>
 
     <legend>Enter a postcode in England and Wales</legend>
-    <p style="margin-top:0px;margin-bottom:10px;">This tool only uses data for urban areas</p>
+    <p>This tool only uses data for urban areas</p>
     <div class="borderbox input-group">
-      <input id="postcodeInput" type="text" class="search-control" placeholder="Search">
+      <input id="postcodeInput" style="text-transform:uppercase" type="text" class="search-control" placeholder="Search">
       <div class="input-group-addon search-group">
         <button id="searchButton" type="submit" style="background: none;border:0;">
           <span class="visuallyhidden">Search</span>
@@ -584,24 +560,40 @@ g.tick text{
       <button id="startButton" type="button" class="btn btn-group__btn btn--primary btn--green btn--primary-disabled">Get results</button>
     </div>
   </div>
+
   <div id="page2" class="d-none">
     <div class="results_box results_box--blue">
-      <h3>The estimated value added to your property by green space is</h3>
+      <h4>The estimated value added to your property by green space is</h4>
       <div class="results_text">
-        <p class="odometer" id="valueDueToGreenSpace">10000</p>
+        <h3 style="margin-top:22px;margin-bottom:0;" class="odometer" id="valueDueToGreenSpace">10000</h3>
       </div>
     </div>
-    <h4>Distance to green space</h4>
+    <legend>Distance to green space</legend>
     <div id="slider"></div>
 
     <div id='map'>
-      <!-- <div id='keydiv'></div>
-    <div id='selectNav'></div> -->
+    </div>
 
+    <div class="row">
+      <div class="col-sm-1 col-xs-12" >
+        <button class="btn btn--primary btn--previous " id="backButton" type="button" style="margin-bottom:4px;"><img src="images/left-arrow.svg" height="15.38" alt="" style="margin-right:5px;"> Back</button>
+      </div>
+
+      <div class="col-sm-4 col-xs-12 offset-sm-7" style="clear:both;">
+        <button class="social-btn"><img src="images/Twitter.svg" height="30" alt="" style="margin-right:5px;"></button>
+
+        <button class="social-btn"><img src="images/Facebook.svg" height="30" alt="" style="margin-right:5px;"></button>
+        <button class="social-btn"><img src="images/Link.svg" height="30" alt="" style="margin-right:5px;"></button>
+
+      </div>
 
     </div>
-    <button class="btn btn--primary btn--previous " id="backButton" type="button" style="margin-bottom:4px;"><img src="images/left-arrow.svg" height="15.38" alt="" style="margin-right:5px;"> Back</button>
+
+
+
   </div>
+  <hr style="margin-top:45px; border: 0;height: 0;border-top: 3px solid #D0D2D3;">
+
 
   <!--<script src="http://d3js.org/d3.v3.min.js"></script>-->
   <!-- <script src="https://d3js.org/topojson.v1.min.js"></script> -->
@@ -726,12 +718,18 @@ g.tick text{
 
       if (propTypeCheck == true && propertyValueCheck == true && postcodeCheck == true) {
         getResultsButton()
+      } else {
+        disableResultsButton()
       }
+    }
+
+    function disableResultsButton() {
+      d3.select("#startButton").classed("btn--primary-disabled", true)
+      d3.select('#startButton').on('click', null)
     }
 
     function getResultsButton() {
       d3.select("#startButton").classed("btn--primary-disabled", false)
-      console.log("results button")
       d3.select('#startButton').on('click', function() {
         showPage2()
       })
@@ -754,8 +752,9 @@ g.tick text{
         .sliderBottom()
         .min(0)
         .max(500)
-        .width(width - 35)
+        .width(width - 51)
         .tickFormat(d3.format(',.0f'))
+        .displayFormat(function(d){if(+d==500){return '500+m'}else{return d+'m'}})
         .ticks(5)
         .step(1)
         .default(250)
@@ -769,7 +768,7 @@ g.tick text{
         .fill("#109057")
         .on('onchange', function(d) {
           var el = document.getElementById('valueDueToGreenSpace')
-          el.innerHTML = propertyprice * percentageDueToGreenSpace(myArray, sliderSimple.value())
+          el.innerHTML = d3.format(".0f")(propertyprice * percentageDueToGreenSpace(myArray, sliderSimple.value()))
         });
 
       d3.select('div#slider').selectAll("*").remove()
@@ -777,10 +776,10 @@ g.tick text{
       var gSimple = d3
         .select('div#slider')
         .append('svg')
-        .attr('height', 80)
+        .attr('height', 105)
         .attr('width', width)
         .append('g')
-        .attr('transform', 'translate(13,20)');
+        .attr('transform', 'translate(20,30)');
 
       gSimple.call(sliderSimple);
 
@@ -797,8 +796,8 @@ g.tick text{
         container: 'map', // container id
         style: 'data/style.json', //stylesheet location
         center: [postcodeiodata.result.longitude, postcodeiodata.result.latitude], // starting position
-        zoom: 12, // starting zoom
-        pitch:75,
+        zoom: 13, // starting zoom
+        // pitch: 75,
         maxZoom: 20, //
         minZoom: 4,
         attributionControl: false
@@ -865,7 +864,7 @@ g.tick text{
 
       myArray = createArray(myData[0])
 
-      document.getElementById('valueDueToGreenSpace').innerHTML = propertyprice * percentageDueToGreenSpace(myArray, distanceToGreenSpace)
+      document.getElementById('valueDueToGreenSpace').innerHTML = d3.format(".0f")(propertyprice * percentageDueToGreenSpace(myArray, distanceToGreenSpace))
 
 
     } //end showpage2 function
@@ -906,6 +905,54 @@ g.tick text{
         var i = d3.interpolateNumber(array[index - 1], array[index])
         return i((distance - (distanceArray[index] - 25)) / 25)
       }
+    }
+
+    //findIndex polyfill
+    // https://tc39.github.io/ecma262/#sec-array.prototype.findindex
+    if (!Array.prototype.findIndex) {
+      Object.defineProperty(Array.prototype, 'findIndex', {
+        value: function(predicate) {
+          // 1. Let O be ? ToObject(this value).
+          if (this == null) {
+            throw new TypeError('"this" is null or not defined');
+          }
+
+          var o = Object(this);
+
+          // 2. Let len be ? ToLength(? Get(O, "length")).
+          var len = o.length >>> 0;
+
+          // 3. If IsCallable(predicate) is false, throw a TypeError exception.
+          if (typeof predicate !== 'function') {
+            throw new TypeError('predicate must be a function');
+          }
+
+          // 4. If thisArg was supplied, let T be thisArg; else let T be undefined.
+          var thisArg = arguments[1];
+
+          // 5. Let k be 0.
+          var k = 0;
+
+          // 6. Repeat, while k < len
+          while (k < len) {
+            // a. Let Pk be ! ToString(k).
+            // b. Let kValue be ? Get(O, Pk).
+            // c. Let testResult be ToBoolean(? Call(predicate, T, « kValue, k, O »)).
+            // d. If testResult is true, return k.
+            var kValue = o[k];
+            if (predicate.call(thisArg, kValue, k, o)) {
+              return k;
+            }
+            // e. Increase k by 1.
+            k++;
+          }
+
+          // 7. Return -1.
+          return -1;
+        },
+        configurable: true,
+        writable: true
+      });
     }
   </script>
 

@@ -40,7 +40,7 @@
   }
 
   h4{
-    font-size:21pt;
+    font-size:18pt;
     font-weight:400;
     margin-top:14px;
     margin-bottom:0px;
@@ -164,6 +164,19 @@
 }
 
 
+  .correct {
+    background-color: #1b5f97 !important;
+    color: #fff !important;
+    font-weight: bold;
+  }
+
+  .incorrect {
+    background-color: #db4742 !important;
+    color: #fff !important;
+    font-weight: bold;
+    text-transform: none !important;
+  }
+
   /* Buttons */
 
 
@@ -210,6 +223,10 @@
     margin-top:55px;
   }
 
+  .social-btn:hover{
+    box-shadow: 0px 0px 0px 3px #206095;
+  }
+
   .btn--select {
     color: #206095;
     border: 2px solid #206095;
@@ -220,7 +237,7 @@
   }
 
   .btn--primary {
-    margin-top:55px;
+    margin-top:25px;
     background-color: #139060;
   }
 
@@ -488,7 +505,7 @@ g.tick text{
 }
 
 .slider text {
-    font-size: 18px;
+    font-size: 21px;
 }
 
 .parameter-value path{
@@ -517,13 +534,13 @@ g.tick text{
     <legend>Enter a postcode in England and Wales</legend>
     <p>This tool only uses data for urban areas</p>
     <div class="borderbox input-group">
-      <input id="postcodeInput" style="text-transform:uppercase" type="text" class="search-control" placeholder="Search">
-      <div class="input-group-addon search-group">
+      <input id="postcodeInput" style="text-transform:uppercase;" type="text" class="search-control" placeholder="">
+      <!-- <div class="input-group-addon search-group">
         <button id="searchButton" type="submit" style="background: none;border:0;">
           <span class="visuallyhidden">Search</span>
           <span id="searchBox"><img src="./images/magnifying-glass.svg" alt="" height="25"></span>
         </button>
-      </div>
+      </div> -->
     </div>
 
     <div>
@@ -532,7 +549,7 @@ g.tick text{
 
     <div class="row">
       <div class="col-xs-12 col-sm-6">
-        <legend>Property Type</legend>
+        <legend>Property type</legend>
 
         <select id="propertyType" class="chosen-select" data-placeholder="Select an option">
           <option></option>
@@ -555,7 +572,7 @@ g.tick text{
 
       </div>
     </div>
-    <div style="clear:left;padding-top:25px;">
+    <div style="clear:left">
       <button id="startButton" type="button" class="btn btn-group__btn btn--primary btn--green btn--primary-disabled">Get results</button>
     </div>
   </div>
@@ -567,14 +584,15 @@ g.tick text{
         <h3 style="margin-top:22px;margin-bottom:0;" class="odometer" id="valueDueToGreenSpace">10000</h3>
       </div>
     </div>
-    <legend>Distance to green space</legend>
+    <legend>Your nearest public green space is a [I haven't fixed this yet], <span id=distance></span> metres from your home.</legend>
+    <legend>Move the slider to see what difference being nearer or further away from public green space would make to the value.</legend>
     <div id="slider"></div>
 
     <div id='map'>
     </div>
 
     <div class="row">
-      <div class="col-sm-1 col-xs-12" >
+      <div class="col-sm-1 col-xs-12">
         <button class="btn btn--primary btn--previous " id="backButton" type="button" style="margin-bottom:4px;"><img src="images/left-arrow.svg" height="15.38" alt="" style="margin-right:5px;"> Back</button>
       </div>
 
@@ -654,9 +672,18 @@ g.tick text{
 
 
 
-    document.getElementById("searchButton").addEventListener("click", function() {
+    // document.getElementById("searchButton").addEventListener("click", function() {
+    //   getCodes1(document.getElementById("postcodeInput").value)
+    // })
+    document.getElementById('postcodeInput').addEventListener('focusin', (event) => {
+      d3.select('#postcodeInput').classed('correct',false)
+      d3.select('#postcodeInput').classed('incorrect',false)
+    });
+
+
+    document.getElementById('postcodeInput').addEventListener('focusout', (event) => {
       getCodes1(document.getElementById("postcodeInput").value)
-    })
+    });
 
 
 
@@ -672,7 +699,8 @@ g.tick text{
         dataType: "jsonp",
         url: myURIstring,
         error: function(xhr, ajaxOptions, thrownError) {
-          $("#pcError").text("Sorry, that's not a valid postcode.").show();
+          d3.select('#postcodeInput').classed('incorrect',true);
+          document.getElementById("postcodeInput").value="Sorry, that's not a valid postcode."
         },
         success: function(data1) {
           if (data1.status == 200) {
@@ -687,20 +715,25 @@ g.tick text{
                 })
                 console.log(row)
                 if (row[0].urban == 0) {
-                  $("#pcError").text("Sorry, your postcode is not in an urban area")
+                  d3.select('#postcodeInput').classed('incorrect',true)
+                  var currPostcode = document.getElementById("postcodeInput").value
+                  document.getElementById("postcodeInput").value="Sorry, "+currPostcode+"is not in an urban area"
                 } else if (row[0].urban == 1) {
                   postcodeCheck = true
-                  $("#pcError").text("We have data about your postcode.")
+                  d3.select('#postcodeInput').classed('correct',true)
+                  // $("#pcError").text("We have data about your postcode.")
                   checkInputs();
                 }
 
               })
             } else {
-              $("#pcError").text("Sorry, our data only covers England and Wales")
+              d3.select('#postcodeInput').classed('incorrect',true)
+              document.getElementById("postcodeInput").value="Sorry, our data only covers England and Wales"
             }
 
           } else {
-            $("#pcError").text("Sorry, that's not a valid postcode.")
+            d3.select('#postcodeInput').classed('incorrect',true)
+            document.getElementById("postcodeInput").value="Sorry, that's not a valid postcode."
           }
         }
       });
@@ -753,7 +786,13 @@ g.tick text{
         .max(500)
         .width(width - 51)
         .tickFormat(d3.format(',.0f'))
-        .displayFormat(function(d){if(+d==500){return '500+m'}else{return d+'m'}})
+        .displayFormat(function(d) {
+          if (+d == 500) {
+            return '500+m'
+          } else {
+            return d + 'm'
+          }
+        })
         .ticks(5)
         .step(1)
         .default(250)
@@ -785,9 +824,11 @@ g.tick text{
       //check if more than 500m away?
       if (+row[0].dist_to_nearest_pags > 500) {
         sliderSimple.value(500)
+        d3.select('#distance').text("more than 500")
         distanceToGreenSpace = 500
       } else {
         sliderSimple.value(+row[0].dist_to_nearest_pags)
+        d3.select('#distance').text(d3.format(",.0f")(+row[0].dist_to_nearest_pags))
         distanceToGreenSpace = +row[0].dist_to_nearest_pags
       }
 

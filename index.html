@@ -21,8 +21,10 @@
 
 
   <style>
-
-
+  /* fix for odometer https://github.com/HubSpot/odometer/issues/137 yay! */
+  .odometer .odometer-digit .odometer-value {
+    width: 100%;
+  }
 
     body {
 		margin:0;
@@ -40,14 +42,14 @@
   }
 
   h4{
-    font-size:18pt;
+    font-size:17pt;
     font-weight:400;
     margin-top:14px;
     margin-bottom:0px;
   }
 
   p{
-    font-size: 18px;
+    font-size: 16px;
     margin-top:6px;
     font-weight:400;
     margin-bottom:0px;
@@ -215,6 +217,7 @@
     border-radius: 0px;
   }
 
+  /* social media buttons */
   .social-btn{
     width:31%;
     display:inline-block;
@@ -223,8 +226,34 @@
     margin-top:55px;
   }
 
-  .social-btn:hover{
-    box-shadow: 0px 0px 0px 3px #206095;
+  #twitter {
+    background: url('images/Twitter.svg') no-repeat;
+    height:30px;
+    margin-right:5px;
+  }
+
+  #twitter:hover {
+    background: url('images/Twitter_Hover.svg') no-repeat;
+  }
+
+  #facebook {
+    background: url('images/Facebook.svg') no-repeat;
+    height:30px;
+    margin-right:5px;
+  }
+
+  #facebook:hover {
+    background: url('images/Facebook_Hover.svg') no-repeat;
+  }
+
+  #link {
+    background: url('images/Link.svg') no-repeat;
+    height:30px;
+    margin-right:5px;
+  }
+
+  #link:hover {
+    background: url('images/Link_Hover.svg') no-repeat;
   }
 
   .btn--select {
@@ -437,6 +466,10 @@
     /* display: inline-block; */
   }
 
+  .redBorder {
+    border: 2px solid #db4742 !important;
+  }
+
   .pound {
     float: left;
     display: inline;
@@ -519,6 +552,11 @@ g.tick text{
   stroke-width:3px;
 }
 
+span.greenText{
+  color:#139060;
+}
+
+
 </style>
 
 </head>
@@ -533,7 +571,7 @@ g.tick text{
 
     <legend>Enter a postcode in England and Wales</legend>
     <p>This tool only uses data for urban areas</p>
-    <div class="borderbox input-group">
+    <div id="specialBorder" class="borderbox input-group">
       <input id="postcodeInput" style="text-transform:uppercase;" type="text" class="search-control" placeholder="">
       <!-- <div class="input-group-addon search-group">
         <button id="searchButton" type="submit" style="background: none;border:0;">
@@ -584,12 +622,14 @@ g.tick text{
         <h3 style="margin-top:22px;margin-bottom:0;" class="odometer" id="valueDueToGreenSpace">10000</h3>
       </div>
     </div>
-    <legend>Your nearest public green space is a [I haven't fixed this yet], <span id=distance></span> metres from your home.</legend>
-    <legend>Move the slider to see what difference being nearer or further away from public green space would make to the value.</legend>
+    <legend>Your nearest public green space is a <span class="greenText">[I haven't fixed this yet]</span>, <span class="greenText" id=distance></span> metres from your home.</legend>
+    <p>Move the slider to see what difference being nearer or further away from public green space would make to the value.</p>
     <div id="slider"></div>
 
     <div id='map'>
     </div>
+
+    <p>Some explanatory notes to come here</p>
 
     <div class="row">
       <div class="col-sm-1 col-xs-12">
@@ -597,10 +637,9 @@ g.tick text{
       </div>
 
       <div class="col-sm-4 col-xs-12 offset-sm-7" style="clear:both;">
-        <button class="social-btn"><img src="images/Twitter.svg" height="30" alt="" style="margin-right:5px;"></button>
-
-        <button class="social-btn"><img src="images/Facebook.svg" height="30" alt="" style="margin-right:5px;"></button>
-        <button class="social-btn"><img src="images/Link.svg" height="30" alt="" style="margin-right:5px;"></button>
+        <button class="social-btn"><div id="twitter"></div></button>
+        <button class="social-btn"><div id="facebook"></div></button>
+        <button class="social-btn"><div id="link"></div></button>
 
       </div>
 
@@ -676,8 +715,16 @@ g.tick text{
     //   getCodes1(document.getElementById("postcodeInput").value)
     // })
     document.getElementById('postcodeInput').addEventListener('focusin', (event) => {
-      d3.select('#postcodeInput').classed('correct',false)
-      d3.select('#postcodeInput').classed('incorrect',false)
+      if(d3.select('#postcodeInput').classed('incorrect')==true){
+        document.getElementById("postcodeInput").value="";
+        d3.select('#specialBorder').classed('redBorder',false)
+        d3.select('#postcodeInput').classed('correct',false)
+        d3.select('#postcodeInput').classed('incorrect',false)
+      }else{
+        d3.select('#postcodeInput').classed('correct',false)
+        d3.select('#postcodeInput').classed('incorrect',false)
+      }
+
     });
 
 
@@ -700,6 +747,7 @@ g.tick text{
         url: myURIstring,
         error: function(xhr, ajaxOptions, thrownError) {
           d3.select('#postcodeInput').classed('incorrect',true);
+          d3.select('#specialBorder').classed('redBorder',true)
           document.getElementById("postcodeInput").value="Sorry, that's not a valid postcode."
         },
         success: function(data1) {
@@ -716,6 +764,7 @@ g.tick text{
                 console.log(row)
                 if (row[0].urban == 0) {
                   d3.select('#postcodeInput').classed('incorrect',true)
+                  d3.select('#specialBorder').classed('redBorder',true)
                   var currPostcode = document.getElementById("postcodeInput").value
                   document.getElementById("postcodeInput").value="Sorry, "+currPostcode+"is not in an urban area"
                 } else if (row[0].urban == 1) {
@@ -728,11 +777,13 @@ g.tick text{
               })
             } else {
               d3.select('#postcodeInput').classed('incorrect',true)
+              d3.select('#specialBorder').classed('redBorder',true)
               document.getElementById("postcodeInput").value="Sorry, our data only covers England and Wales"
             }
 
           } else {
             d3.select('#postcodeInput').classed('incorrect',true)
+            d3.select('#specialBorder').classed('redBorder',true)
             document.getElementById("postcodeInput").value="Sorry, that's not a valid postcode."
           }
         }

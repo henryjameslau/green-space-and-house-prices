@@ -223,7 +223,7 @@
     display:inline-block;
     background: none;
     border: 0;
-    margin-top:55px;
+    margin-top:25px;
   }
 
   #twitter {
@@ -267,7 +267,7 @@
 
   .btn--primary {
     margin-top:25px;
-    background-color: #139060;
+    background-color: #0F8243;
   }
 
   .btn--primary-disabled {
@@ -501,6 +501,17 @@
   vertical-align: bottom;
   /* opacity:0.8; */
 }
+
+  .marker2 {
+    background-image: url('./images/leaf-drop.svg');
+    background-size: cover;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    cursor: pointer;
+    vertical-align: bottom;
+  }
+
   .mapboxgl-marker .marker{
     transform: translate(-50%, -100%);
   }
@@ -553,7 +564,7 @@ g.tick text{
 }
 
 span.greenText{
-  color:#139060;
+  color:#0F8243;
 }
 
 
@@ -622,14 +633,18 @@ span.greenText{
         <h3 style="margin-top:22px;margin-bottom:0;" class="odometer" id="valueDueToGreenSpace">10000</h3>
       </div>
     </div>
-    <legend>Your nearest public green space is a <span class="greenText">[I haven't fixed this yet]</span>, <span class="greenText" id=distance></span> metres from your home.</legend>
+    <legend>Your nearest public green space is a <span id="typeOfGreenSpace" class="greenText">[I haven't fixed this yet]</span>, <span class="greenText" id=distance></span> metres from your home.</legend>
     <p>Move the slider to see what difference being nearer or further away from public green space would make to the value.</p>
     <div id="slider"></div>
 
     <div id='map'>
     </div>
 
-    <p>Some explanatory notes to come here</p>
+    <p>This value is an estimate based on analysis for the whole of England and Wales and there may be some anomalies when looking local results. Distances are shown from the centre of the postcode to the nearest defined access point. Green spaces without defined access points may not be included.</p>
+
+    <p>Public green space data comes from Ordnance Survey, who define publicly accessible green space as “”.</p>
+
+    <p><a href="mailto:natural.capital.team@ons.gov.uk">We’d welcome feedback on this interactive.</a></p>
 
     <div class="row">
       <div class="col-sm-1 col-xs-12">
@@ -757,7 +772,7 @@ span.greenText{
               //check whether urban area
               postcodeiodata = data1;
 
-              d3.csv("data/split/" + data1.result.outcode + ".csv", function(data) {
+              d3.csv("https://cdn.ons.gov.uk/maptiles/t19/split/" + data1.result.outcode + ".csv", function(data) {
                 row = data.filter(function(e) {
                   return e.postcode_end == data1.result.incode
                 })
@@ -835,7 +850,7 @@ span.greenText{
         .sliderBottom()
         .min(0)
         .max(500)
-        .width(width - 51)
+        .width(width - 60)
         .tickFormat(d3.format(',.0f'))
         .displayFormat(function(d) {
           if (+d == 500) {
@@ -854,7 +869,7 @@ span.greenText{
           .type(d3.symbolCircle)
           .size(500)
         )
-        .fill("#109057")
+        .fill("#0F8243")
         .on('onchange', function(d) {
           var el = document.getElementById('valueDueToGreenSpace')
           el.innerHTML = d3.format(".0f")(propertyprice * percentageDueToGreenSpace(myArray, sliderSimple.value()))
@@ -873,15 +888,18 @@ span.greenText{
       gSimple.call(sliderSimple);
 
       //check if more than 500m away?
-      if (+row[0].dist_to_nearest_pags > 500) {
+      if (+row[0].distance_to_nearest_pags > 500) {
         sliderSimple.value(500)
         d3.select('#distance').text("more than 500")
         distanceToGreenSpace = 500
       } else {
-        sliderSimple.value(+row[0].dist_to_nearest_pags)
-        d3.select('#distance').text(d3.format(",.0f")(+row[0].dist_to_nearest_pags))
-        distanceToGreenSpace = +row[0].dist_to_nearest_pags
+        sliderSimple.value(+row[0].distance_to_nearest_pags)
+        d3.select('#distance').text(d3.format(",.0f")(+row[0].distance_to_nearest_pags))
+        distanceToGreenSpace = +row[0].distance_to_nearest_pags
       }
+
+      //type of green space
+      d3.select("#typeOfGreenSpace").text(row[0]["function."].toLowerCase())
 
       map = new mapboxgl.Map({
         container: 'map', // container id
@@ -913,6 +931,15 @@ span.greenText{
       }));
 
 
+
+      //leaf marker
+      var el2 = document.createElement('div');
+      el2.className = 'marker2';
+      new mapboxgl.Marker(el2)
+        .setLngLat([+row[0].accesslat,+row[0].accesslon])
+        .addTo(map);
+
+      //house marker
       //create a HTML element for each feature
       var el = document.createElement('div');
       el.className = 'marker';
@@ -921,6 +948,7 @@ span.greenText{
       new mapboxgl.Marker(el)
         .setLngLat([postcodeiodata.result.longitude, postcodeiodata.result.latitude])
         .addTo(map);
+
 
       map.on('load', function() {
         map.addLayer({
@@ -933,7 +961,7 @@ span.greenText{
           "source-layer": "greenspace",
           "background-color": "#ccc",
           "paint": {
-            'fill-color': "#0F8243",
+            'fill-color': "#6FB48E",
           }
         })
       })
@@ -962,26 +990,27 @@ span.greenText{
 
     function createArray(d) {
       var array = []
-      array.push(d.pc_diff_0)
-      array.push(d.pc_diff_25)
-      array.push(d.pc_diff_50)
-      array.push(d.pc_diff_75)
-      array.push(d.pc_diff_100)
-      array.push(d.pc_diff_125)
-      array.push(d.pc_diff_150)
-      array.push(d.pc_diff_175)
-      array.push(d.pc_diff_200)
-      array.push(d.pc_diff_225)
-      array.push(d.pc_diff_250)
-      array.push(d.pc_diff_275)
-      array.push(d.pc_diff_300)
-      array.push(d.pc_diff_325)
-      array.push(d.pc_diff_350)
-      array.push(d.pc_diff_375)
-      array.push(d.pc_diff_400)
-      array.push(d.pc_diff_425)
-      array.push(d.pc_diff_450)
-      array.push(d.pc_diff_475)
+      array.push(+d.pc_diff_0)
+      array.push(+d.pc_diff_25)
+      array.push(+d.pc_diff_50)
+      array.push(+d.pc_diff_75)
+      array.push(+d.pc_diff_100)
+      array.push(+d.pc_diff_125)
+      array.push(+d.pc_diff_150)
+      array.push(+d.pc_diff_175)
+      array.push(+d.pc_diff_200)
+      array.push(+d.pc_diff_225)
+      array.push(+d.pc_diff_250)
+      array.push(+d.pc_diff_275)
+      array.push(+d.pc_diff_300)
+      array.push(+d.pc_diff_325)
+      array.push(+d.pc_diff_350)
+      array.push(+d.pc_diff_375)
+      array.push(+d.pc_diff_400)
+      array.push(+d.pc_diff_425)
+      array.push(+d.pc_diff_450)
+      array.push(+d.pc_diff_475)
+      array.push(0)
       return array
     }
 
@@ -990,13 +1019,12 @@ span.greenText{
       var index = distanceArray.findIndex(function(d) {
         return d > distance
       })
-      if (index == 20) {
-        var i = d3.interpolateNumber(array[index - 1], 0)
-        return i((distance - (distanceArray[index] - 25)) / 25)
-      } else {
         var i = d3.interpolateNumber(array[index - 1], array[index])
-        return i((distance - (distanceArray[index] - 25)) / 25)
-      }
+        if(distance>=475){
+          return i((distance - 475) / 25)
+        }else{
+          return i((distance - (distanceArray[index] - 25)) / 25)
+        }
     }
 
     //findIndex polyfill

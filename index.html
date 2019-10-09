@@ -76,7 +76,7 @@
 	    #map {
 			position:relative;
 			top:0px;
-			margin-top:120px;
+			margin-top:0;
 			height: 300px;
 			width: 100%;
 			overflow:visible;
@@ -633,18 +633,14 @@ span.greenText{
         <h3 style="margin-top:22px;margin-bottom:0;" class="odometer" id="valueDueToGreenSpace">10000</h3>
       </div>
     </div>
-    <legend>Your nearest public green space is a <span id="typeOfGreenSpace" class="greenText">[I haven't fixed this yet]</span>, <span class="greenText" id=distance></span> metres from your home.</legend>
+    <legend>Your nearest public green space<span id="grammar"> is a</span> <span id="typeOfGreenSpace" class="greenText">[I haven't fixed this yet]</span>, <span class="greenText" id=distance></span> metres from your home.</legend>
     <p>Move the slider to see what difference being nearer or further away from public green space would make to the value.</p>
     <div id="slider"></div>
 
     <div id='map'>
     </div>
 
-    <p>This value is an estimate based on analysis for the whole of England and Wales and there may be some anomalies when looking local results. Distances are shown from the centre of the postcode to the nearest defined access point. Green spaces without defined access points may not be included.</p>
 
-    <p>Public green space data comes from Ordnance Survey, who define publicly accessible green space as “”.</p>
-
-    <p><a href="mailto:natural.capital.team@ons.gov.uk">We’d welcome feedback on this interactive.</a></p>
 
     <div class="row">
       <div class="col-sm-1 col-xs-12">
@@ -652,14 +648,19 @@ span.greenText{
       </div>
 
       <div class="col-sm-4 col-xs-12 offset-sm-7" style="clear:both;">
-        <button class="social-btn"><div id="twitter"></div></button>
-        <button class="social-btn"><div id="facebook"></div></button>
-        <button class="social-btn"><div id="link"></div></button>
+        <button class="social-btn"><a href="https://www.facebook.com/sharer/sharer.php?u=https://www.ons.gov.uk/" target="_blank" title="facebook"><div id="twitter"></div></a></button>
+        <button class="social-btn"><a href="https://twitter.com/intent/tweet?text=How%20much%20does%20green%20space%20add%20value%20to%20your%20property%20https://www.ons.gov.uk/" target="_blank" title="facebook"><div id="facebook"></div></a></button>
+        <button onclick="copyLink()" class="social-btn"><div id="link"></div></button>
 
       </div>
 
     </div>
 
+    <p>This value is an estimate based on analysis for the whole of England and Wales and there may be some anomalies when looking local results. Distances are shown from the centre of the postcode to the nearest defined access point. Green spaces without defined access points may not be included.</p>
+
+    <p>Public green space data comes from Ordnance Survey, who define publicly accessible green space as “”.</p>
+
+    <p><a href="mailto:natural.capital.team@ons.gov.uk">We’d welcome feedback on this interactive.</a></p>
 
 
   </div>
@@ -683,6 +684,8 @@ span.greenText{
   <!-- <script src="js/script.js"></script> -->
   <script src='js/odometer.min.js' type="text/javascript"></script>
   <script src='js/d3-simple-slider.js' type="text/javascript"></script>
+  <script src="https://unpkg.com/popper.js@1"></script>
+  <script src="https://unpkg.com/tippy.js@5"></script>
 
   <script type="application/javascript">
     //load percentage data and store it globally
@@ -724,7 +727,11 @@ span.greenText{
       duration: 1000
     };
 
-
+    tippy('#link',{
+      content: "Link copied to clipboard",
+      trigger:'click',
+      duration:1000,
+    })
 
     // document.getElementById("searchButton").addEventListener("click", function() {
     //   getCodes1(document.getElementById("postcodeInput").value)
@@ -860,7 +867,7 @@ span.greenText{
           }
         })
         .ticks(5)
-        .step(1)
+        .step(25)
         .default(250)
         .startingText("")
         // .startingValue(200)
@@ -899,7 +906,18 @@ span.greenText{
       }
 
       //type of green space
-      d3.select("#typeOfGreenSpace").text(row[0]["function."].toLowerCase())
+      if(row[0]["function."]=="Allotments Or Community Growing Spaces"||row[0]["function."]=="Religious Grounds"){
+        d3.select("#grammar").text("s are")
+      }else{
+        d3.select("#grammar").text(" is a")
+      }
+
+      if(row[0]["function."]="Other Sports Facility"){
+        d3.select("#typeOfGreenSpace").text("sports facility")
+      }else{
+        d3.select("#typeOfGreenSpace").text(row[0]["function."].toLowerCase())
+      }
+
 
       map = new mapboxgl.Map({
         container: 'map', // container id
@@ -1026,6 +1044,17 @@ span.greenText{
         }else{
           return i((distance - (distanceArray[index] - 25)) / 25)
         }
+    }
+
+    function copyLink(){
+      var dummy = document.createElement('input'),
+          text = window.location.href;
+
+      document.body.appendChild(dummy);
+      dummy.value = text;
+      dummy.select();
+      document.execCommand('copy');
+      document.body.removeChild(dummy);
     }
 
     //findIndex polyfill

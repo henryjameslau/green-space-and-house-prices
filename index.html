@@ -983,6 +983,21 @@ span.greenText{
             'fill-opacity':0.6
           }
         })
+
+        map.addLayer({
+          "id": "greenspaces-outline",
+          "type": "line",
+          "source": {
+            "type": 'vector',
+            "tiles": ['https://cdn.ons.gov.uk/maptiles/t19/{z}/{x}/{y}.pbf']
+          },
+          "source-layer": "greenspace",
+          "paint": {
+            "line-color": "#00541a",
+	          "line-width": 2
+          },
+          "filter": ["==", "id", row[0].pags_id]
+        })
       })
 
       // map.on('load', function() {

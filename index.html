@@ -729,7 +729,7 @@ span.greenText{
     // document.getElementById("searchButton").addEventListener("click", function() {
     //   getCodes1(document.getElementById("postcodeInput").value)
     // })
-    document.getElementById('postcodeInput').addEventListener('focusin', (event) => {
+    document.getElementById('postcodeInput').addEventListener('focusin', function(){
       if(d3.select('#postcodeInput').classed('incorrect')==true){
         document.getElementById("postcodeInput").value="";
         d3.select('#specialBorder').classed('redBorder',false)
@@ -743,7 +743,7 @@ span.greenText{
     });
 
 
-    document.getElementById('postcodeInput').addEventListener('focusout', (event) => {
+    document.getElementById('postcodeInput').addEventListener('focusout', function() {
       getCodes1(document.getElementById("postcodeInput").value)
     });
 
@@ -961,7 +961,8 @@ span.greenText{
           "source-layer": "greenspace",
           "background-color": "#ccc",
           "paint": {
-            'fill-color': "#6FB48E",
+            'fill-color': "#0F8243",
+            'fill-opacity':0.6
           }
         })
       })
@@ -974,15 +975,15 @@ span.greenText{
       //
       //   })
 
-      console.log(percentageData)
+
       myData = percentageData.filter(function(d) {
         return d.Region == postcodeiodata.result.region
       }).filter(function(d) {
         return d.property_type_condensed == propertyTypeValue
       })
-
+      console.log(myData)
       myArray = createArray(myData[0])
-
+      console.log(myArray)
       document.getElementById('valueDueToGreenSpace').innerHTML = d3.format(".0f")(propertyprice * percentageDueToGreenSpace(myArray, distanceToGreenSpace))
 
 

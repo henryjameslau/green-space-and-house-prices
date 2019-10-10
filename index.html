@@ -663,10 +663,9 @@ span.greenText{
 
     </div>
 
-    <p>This value is an estimate based on analysis for the whole of England and Wales and there may be some anomalies when looking local results. Distances are shown from the centre of the postcode to the nearest defined access point. Green spaces
-      without defined access points may not be included.</p>
+    <p>This value is an estimate based on analysis for the whole of England and Wales and there may be some anomalies when looking local results. For instance, since the tool is using averages, if you live near a particularly nice park our tool may significantly undervalue it. Distances are shown from the centre of the postcode to the nearest defined access point. Green spaces without defined access points may not be included. This tool should not be used to help value your home. </p>
 
-    <p>Public green space data comes from Ordnance Survey, who define publicly accessible green space as “”.</p>
+    <p>Public green space data comes from Ordnance Survey, who define publicly accessible green space as public parks or gardens, play spaces, playing fields, sports facilities, golf courses, allotments or community growing spaces, and religious grounds and cemeteries. These spaces contain natural land cover and can also include some blue space.</p>
 
     <p><a href="mailto:natural.capital.team@ons.gov.uk">We’d welcome feedback on this interactive.</a></p>
 
@@ -696,9 +695,11 @@ span.greenText{
   <script src="https://unpkg.com/tippy.js@5"></script>
 
   <script type="application/javascript">
+    var pymChild = null;
     //load percentage data and store it globally
     d3.csv("data/effect_pags_tool_short.csv", function(data) {
       percentageData = data;
+      pymChild = new pym.Child();
     })
 
     postcodeCheck = false;
@@ -768,11 +769,11 @@ span.greenText{
       getCodes1(document.getElementById("postcodeInput").value)
     });
 
-
+    pymChild.sendHeight();
 
     function getCodes1(myValue2) {
 
-      console.log(myValue2)
+      // console.log(myValue2)
 
       var myURIstring = encodeURI("https://api.postcodes.io/postcodes/" + myValue2);
       $.support.cors = true;
@@ -858,6 +859,7 @@ span.greenText{
       d3.select('#page1').classed('d-none', false)
       d3.select('#page2').classed('d-none', true)
       $("#pcError").text("")
+      pymChild.sendHeight()
     }
 
     function showPage2() {
@@ -893,7 +895,7 @@ span.greenText{
         .fill("#0F8243")
         .on('onchange', function(d) {
           var el = document.getElementById('valueDueToGreenSpace')
-          el.innerHTML = d3.format(".0f")(propertyprice * percentageDueToGreenSpace(myArray, sliderSimple.value()))
+          el.innerHTML = d3.format(".0f")(Math.round((propertyprice * percentageDueToGreenSpace(myArray, sliderSimple.value()))/10)*10)
         });
 
       d3.select('div#slider').selectAll("*").remove()
@@ -926,7 +928,7 @@ span.greenText{
         d3.select("#grammar").text(" is a")
       }
 
-      if (row[0]["function."] = "Other Sports Facility") {
+      if (row[0]["function."] == "Other Sports Facility") {
         d3.select("#typeOfGreenSpace").text("sports facility")
       } else {
         d3.select("#typeOfGreenSpace").text(row[0]["function."].toLowerCase())
@@ -1031,8 +1033,9 @@ span.greenText{
       console.log(myData)
       myArray = createArray(myData[0])
       console.log(myArray)
-      document.getElementById('valueDueToGreenSpace').innerHTML = d3.format(".0f")(propertyprice * percentageDueToGreenSpace(myArray, distanceToGreenSpace))
+      document.getElementById('valueDueToGreenSpace').innerHTML = d3.format(".0f")(Math.round((propertyprice * percentageDueToGreenSpace(myArray, distanceToGreenSpace))/10)*10)
 
+      pymChild.sendHeight()
 
     } //end showpage2 function
 

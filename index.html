@@ -723,8 +723,6 @@ span.greenText{
       }
     }
 
-    // console.log(anElement.getNumber())
-
     d3.select('#property').on('input', function() {
       propertyprice = anElement.getNumber()
       checkInputs();
@@ -773,8 +771,6 @@ span.greenText{
 
     function getCodes1(myValue2) {
 
-      // console.log(myValue2)
-
       var myURIstring = encodeURI("https://api.postcodes.io/postcodes/" + myValue2);
       $.support.cors = true;
       $.ajax({
@@ -798,7 +794,6 @@ span.greenText{
                 row = data.filter(function(e) {
                   return e.postcode_end == data1.result.incode
                 })
-                console.log(row)
                 if (row[0].urban == 0) {
                   d3.select('#postcodeInput').classed('incorrect', true)
                   d3.select('#specialBorder').classed('redBorder', true)
@@ -1030,9 +1025,7 @@ span.greenText{
       }).filter(function(d) {
         return d.property_type_condensed == propertyTypeValue
       })
-      console.log(myData)
       myArray = createArray(myData[0])
-      console.log(myArray)
       document.getElementById('valueDueToGreenSpace').innerHTML = d3.format(".0f")(Math.round((propertyprice * percentageDueToGreenSpace(myArray, distanceToGreenSpace))/10)*10)
 
       pymChild.sendHeight()

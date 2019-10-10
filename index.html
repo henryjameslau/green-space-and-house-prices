@@ -21,7 +21,7 @@
 
 
   <style>
-  /* fix for odometer https://github.com/HubSpot/odometer/issues/137 yay! */
+    /* fix for odometer https://github.com/HubSpot/odometer/issues/137 yay! */
   .odometer .odometer-digit .odometer-value {
     width: 100%;
   }
@@ -200,7 +200,7 @@
     text-decoration: none;
     line-height: 24px;
     display: inline-block;
-    padding: 4px 12px;
+    padding: 8px 20px;
     margin-bottom: 0;
     line-height: 1.42857143;
     white-space: nowrap;
@@ -583,7 +583,7 @@ span.greenText{
     <legend>Enter a postcode in England and Wales</legend>
     <p>This tool only uses data for urban areas</p>
     <div id="specialBorder" class="borderbox input-group">
-      <input id="postcodeInput" style="text-transform:uppercase;" type="text" class="search-control" placeholder="">
+      <input id="postcodeInput" style="text-transform:uppercase;" type="text" class="search-control;" placeholder="">
       <!-- <div class="input-group-addon search-group">
         <button id="searchButton" type="submit" style="background: none;border:0;">
           <span class="visuallyhidden">Search</span>
@@ -648,15 +648,23 @@ span.greenText{
       </div>
 
       <div class="col-sm-4 col-xs-12 offset-sm-7" style="clear:both;">
-        <button class="social-btn"><a href="https://www.facebook.com/sharer/sharer.php?u=https://www.ons.gov.uk/economy/environmentalaccounts/articles/urbangreenspacesraisenearbyhousepricesbyanaverageof2500/2019-10-14" target="_blank" title="facebook"><div id="twitter"></div></a></button>
-        <button class="social-btn"><a href="https://twitter.com/intent/tweet?text=How%20much%20does%20green%20space%20add%20value%20to%20your%20property%20https://www.ons.gov.uk/economy/environmentalaccounts/articles/urbangreenspacesraisenearbyhousepricesbyanaverageof2500/2019-10-14" target="_blank" title="facebook"><div id="facebook"></div></a></button>
-        <button onclick="copyLink()" class="social-btn"><div id="link"></div></button>
+        <button class="social-btn"><a href="https://www.facebook.com/sharer/sharer.php?u=https://www.ons.gov.uk/economy/environmentalaccounts/articles/urbangreenspacesraisenearbyhousepricesbyanaverageof2500/2019-10-14" target="_blank" title="facebook">
+            <div id="twitter"></div>
+          </a></button>
+        <button class="social-btn"><a href="https://twitter.com/intent/tweet?text=How%20much%20does%20green%20space%20add%20value%20to%20your%20property%20https://www.ons.gov.uk/economy/environmentalaccounts/articles/urbangreenspacesraisenearbyhousepricesbyanaverageof2500/2019-10-14"
+            target="_blank" title="facebook">
+            <div id="facebook"></div>
+          </a></button>
+        <button onclick="copyLink()" class="social-btn">
+          <div id="link"></div>
+        </button>
 
       </div>
 
     </div>
 
-    <p>This value is an estimate based on analysis for the whole of England and Wales and there may be some anomalies when looking local results. Distances are shown from the centre of the postcode to the nearest defined access point. Green spaces without defined access points may not be included.</p>
+    <p>This value is an estimate based on analysis for the whole of England and Wales and there may be some anomalies when looking local results. Distances are shown from the centre of the postcode to the nearest defined access point. Green spaces
+      without defined access points may not be included.</p>
 
     <p>Public green space data comes from Ordnance Survey, who define publicly accessible green space as “”.</p>
 
@@ -708,6 +716,12 @@ span.greenText{
       propertyTypeValue = $('#propertyType').val()
     })
 
+    document.getElementById('postcodeInput').onkeydown = function(event) {
+      if (event.keyCode == 13) {
+        getCodes1(document.getElementById("postcodeInput").value)
+      }
+    }
+
     // console.log(anElement.getNumber())
 
     d3.select('#property').on('input', function() {
@@ -727,24 +741,24 @@ span.greenText{
       duration: 1000
     };
 
-    tippy('#link',{
+    tippy('#link', {
       content: "Link copied to clipboard",
-      trigger:'click',
-      duration:1000,
+      trigger: 'click',
+      duration: 1000,
     })
 
     // document.getElementById("searchButton").addEventListener("click", function() {
     //   getCodes1(document.getElementById("postcodeInput").value)
     // })
-    document.getElementById('postcodeInput').addEventListener('focusin', function(){
-      if(d3.select('#postcodeInput').classed('incorrect')==true){
-        document.getElementById("postcodeInput").value="";
-        d3.select('#specialBorder').classed('redBorder',false)
-        d3.select('#postcodeInput').classed('correct',false)
-        d3.select('#postcodeInput').classed('incorrect',false)
-      }else{
-        d3.select('#postcodeInput').classed('correct',false)
-        d3.select('#postcodeInput').classed('incorrect',false)
+    document.getElementById('postcodeInput').addEventListener('focusin', function() {
+      if (d3.select('#postcodeInput').classed('incorrect') == true) {
+        document.getElementById("postcodeInput").value = "";
+        d3.select('#specialBorder').classed('redBorder', false)
+        d3.select('#postcodeInput').classed('correct', false)
+        d3.select('#postcodeInput').classed('incorrect', false)
+      } else {
+        d3.select('#postcodeInput').classed('correct', false)
+        d3.select('#postcodeInput').classed('incorrect', false)
       }
 
     });
@@ -768,9 +782,9 @@ span.greenText{
         dataType: "jsonp",
         url: myURIstring,
         error: function(xhr, ajaxOptions, thrownError) {
-          d3.select('#postcodeInput').classed('incorrect',true);
-          d3.select('#specialBorder').classed('redBorder',true)
-          document.getElementById("postcodeInput").value="Sorry, that's not a valid postcode."
+          d3.select('#postcodeInput').classed('incorrect', true);
+          d3.select('#specialBorder').classed('redBorder', true)
+          document.getElementById("postcodeInput").value = "Sorry, that's not a valid postcode."
         },
         success: function(data1) {
           if (data1.status == 200) {
@@ -785,28 +799,28 @@ span.greenText{
                 })
                 console.log(row)
                 if (row[0].urban == 0) {
-                  d3.select('#postcodeInput').classed('incorrect',true)
-                  d3.select('#specialBorder').classed('redBorder',true)
+                  d3.select('#postcodeInput').classed('incorrect', true)
+                  d3.select('#specialBorder').classed('redBorder', true)
                   var currPostcode = document.getElementById("postcodeInput").value
-                  document.getElementById("postcodeInput").value="Sorry, "+currPostcode+"is not in an urban area"
+                  document.getElementById("postcodeInput").value = "Sorry, " + currPostcode + "is not in an urban area"
                 } else if (row[0].urban == 1) {
                   postcodeCheck = true
-                  d3.select('#postcodeInput').classed('correct',true)
+                  d3.select('#postcodeInput').classed('correct', true)
                   // $("#pcError").text("We have data about your postcode.")
                   checkInputs();
                 }
 
               })
             } else {
-              d3.select('#postcodeInput').classed('incorrect',true)
-              d3.select('#specialBorder').classed('redBorder',true)
-              document.getElementById("postcodeInput").value="Sorry, our data only covers England and Wales"
+              d3.select('#postcodeInput').classed('incorrect', true)
+              d3.select('#specialBorder').classed('redBorder', true)
+              document.getElementById("postcodeInput").value = "Sorry, our data only covers England and Wales"
             }
 
           } else {
-            d3.select('#postcodeInput').classed('incorrect',true)
-            d3.select('#specialBorder').classed('redBorder',true)
-            document.getElementById("postcodeInput").value="Sorry, that's not a valid postcode."
+            d3.select('#postcodeInput').classed('incorrect', true)
+            d3.select('#specialBorder').classed('redBorder', true)
+            document.getElementById("postcodeInput").value = "Sorry, that's not a valid postcode."
           }
         }
       });
@@ -906,15 +920,15 @@ span.greenText{
       }
 
       //type of green space
-      if(row[0]["function."]=="Allotments Or Community Growing Spaces"||row[0]["function."]=="Religious Grounds"){
+      if (row[0]["function."] == "Allotments Or Community Growing Spaces" || row[0]["function."] == "Religious Grounds") {
         d3.select("#grammar").text("s are")
-      }else{
+      } else {
         d3.select("#grammar").text(" is a")
       }
 
-      if(row[0]["function."]="Other Sports Facility"){
+      if (row[0]["function."] = "Other Sports Facility") {
         d3.select("#typeOfGreenSpace").text("sports facility")
-      }else{
+      } else {
         d3.select("#typeOfGreenSpace").text(row[0]["function."].toLowerCase())
       }
 
@@ -954,7 +968,7 @@ span.greenText{
       var el2 = document.createElement('div');
       el2.className = 'marker2';
       new mapboxgl.Marker(el2)
-        .setLngLat([+row[0].accesslat,+row[0].accesslon])
+        .setLngLat([+row[0].accesslat, +row[0].accesslon])
         .addTo(map);
 
       //house marker
@@ -980,7 +994,7 @@ span.greenText{
           "background-color": "#ccc",
           "paint": {
             'fill-color': "#0F8243",
-            'fill-opacity':0.6
+            'fill-opacity': 0.6
           }
         })
 
@@ -994,7 +1008,7 @@ span.greenText{
           "source-layer": "greenspace",
           "paint": {
             "line-color": "#00541a",
-	          "line-width": 2
+            "line-width": 2
           },
           "filter": ["==", "id", row[0].pags_id]
         })
@@ -1053,17 +1067,17 @@ span.greenText{
       var index = distanceArray.findIndex(function(d) {
         return d > distance
       })
-        var i = d3.interpolateNumber(array[index - 1], array[index])
-        if(distance>=475){
-          return i((distance - 475) / 25)
-        }else{
-          return i((distance - (distanceArray[index] - 25)) / 25)
-        }
+      var i = d3.interpolateNumber(array[index - 1], array[index])
+      if (distance >= 475) {
+        return i((distance - 475) / 25)
+      } else {
+        return i((distance - (distanceArray[index] - 25)) / 25)
+      }
     }
 
-    function copyLink(){
+    function copyLink() {
       var dummy = document.createElement('input'),
-          text = window.location.href;
+        text = window.location.href;
 
       document.body.appendChild(dummy);
       dummy.value = text;

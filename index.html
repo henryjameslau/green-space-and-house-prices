@@ -1019,9 +1019,10 @@ span.greenText{
       //
       //   })
 
+      if(postcodeiodata.result.country=="Wales"){region="Wales"}else{region=postcodeiodata.result.region}
 
       myData = percentageData.filter(function(d) {
-        return d.Region == postcodeiodata.result.region
+        return d.Region == region
       }).filter(function(d) {
         return d.property_type_condensed == propertyTypeValue
       })

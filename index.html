@@ -36,9 +36,10 @@
     color:#206095;
 	}
 
-  h3{
+  legend{
     font-size: 38px;
     margin-top:22px;
+    font-weight: 700;
   }
 
   h4{
@@ -53,6 +54,24 @@
     margin-top:6px;
     font-weight:400;
     margin-bottom:0px;
+  }
+
+  label {
+    display: block;
+    width: 100%;
+    padding: 0;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: inherit;
+    color: #206095;
+    border: 0;
+    margin: 25px 0 0 0;
+  }
+
+  fieldset {
+    border: none;
+    padding: 0;
+    width: 100%;
   }
 
 	#header{
@@ -349,17 +368,7 @@
     outline: 3px solid #f93;
   }
 
-  legend {
-    display: block;
-    width: 100%;
-    padding: 0;
-    font-size: 20px;
-    font-weight: 700;
-    line-height: inherit;
-    color: #206095;
-    border: 0;
-    margin: 25px 0 0 0;
-  }
+
 
   @-moz-document url-prefix() {
     input[type=number] {
@@ -578,52 +587,56 @@ span.greenText{
   </noscript>
   <hr style="border: 0;height: 0;border-top: 6px solid #D0D2D3;">
   <div id="page1">
-    <h3>Find out the value that green space adds to your home</h3>
+    <form>
+      <fieldset>
+        <legend>Find out the value that green space adds to your home</legend>
 
-    <legend>Enter a postcode in England and Wales</legend>
-    <p>This tool only uses data for urban areas</p>
-    <div id="specialBorder" class="borderbox input-group">
-      <input id="postcodeInput" style="text-transform:uppercase;" type="text" class="search-control;" placeholder="">
-      <!-- <div class="input-group-addon search-group">
+        <label for="postcodeInput">Enter a postcode in England and Wales</label>
+        <p>This tool only uses data for urban areas</p>
+        <div id="specialBorder" class="borderbox input-group">
+          <input id="postcodeInput" style="text-transform:uppercase;" type="text" class="search-control;" placeholder="">
+          <!-- <div class="input-group-addon search-group">
         <button id="searchButton" type="submit" style="background: none;border:0;">
           <span class="visuallyhidden">Search</span>
           <span id="searchBox"><img src="./images/magnifying-glass.svg" alt="" height="25"></span>
         </button>
       </div> -->
-    </div>
-
-    <div>
-      <p id="pcError"></p>
-    </div>
-
-    <div class="row">
-      <div class="col-xs-12 col-sm-6">
-        <legend>Property type</legend>
-
-        <select id="propertyType" class="chosen-select" data-placeholder="Select an option">
-          <option></option>
-          <option id="Terrace" value="Terraced">Terraced</option>
-          <option id="Semi" value="Semi-detached">Semi-detached</option>
-          <option id="Detached" value="Detached">Detached</option>
-          <option id="Flat" value="Flat">Flat</option>
-          <option id="Bungalow" value="Bungalow">Bungalow</option>
-        </select>
-
-      </div>
-      <div class="col-xs-12 col-sm-6">
-
-        <legend>Property price</legend>
-        <div class="borderbox" style="float:left;">
-          <div class="pound">£</div>
-          <input style="width:calc(100% - 40px); text-align:right;padding-right:5px;" class="bold" id='property' type="text" name="property">
         </div>
 
+        <!-- <div>
+      <p id="pcError"></p>
+    </div> -->
 
+        <div class="row">
+          <div class="col-xs-12 col-sm-6">
+            <label for="propertyType">Select the property type</label>
+
+            <select id="propertyType" class="chosen-select" data-placeholder="Select an option">
+              <option></option>
+              <option id="Terrace" value="Terraced">Terraced</option>
+              <option id="Semi" value="Semi-detached">Semi-detached</option>
+              <option id="Detached" value="Detached">Detached</option>
+              <option id="Flat" value="Flat">Flat</option>
+              <option id="Bungalow" value="Bungalow">Bungalow</option>
+            </select>
+
+          </div>
+          <div class="col-xs-12 col-sm-6">
+
+            <label for="property">Enter the property price</label>
+            <div class="borderbox" style="float:left;">
+              <div class="pound">£</div>
+              <input style="width:calc(100% - 40px); text-align:right;padding-right:5px;" class="bold" id='property' type="text" name="property">
+            </div>
+
+
+          </div>
+        </div>
+      </fieldset>
+      <div style="clear:left">
+        <button id="startButton" type="button" class="btn btn-group__btn btn--primary btn--green btn--primary-disabled">Get results</button>
       </div>
-    </div>
-    <div style="clear:left">
-      <button id="startButton" type="button" class="btn btn-group__btn btn--primary btn--green btn--primary-disabled">Get results</button>
-    </div>
+    </form>
   </div>
 
   <div id="page2" class="d-none">
@@ -664,9 +677,11 @@ span.greenText{
 
     </div>
 
-    <p>This value is an estimate based on analysis for the whole of England and Wales and there may be some anomalies when looking at local results. For instance, since the tool is using averages, if you live near a particularly nice park our tool may significantly undervalue it. Distances are shown from the centre of the postcode to the nearest defined access point. Green spaces without defined access points may not be included. This tool should not be used to help value your home.</p>
+    <p>This value is an estimate based on analysis for the whole of England and Wales and there may be some anomalies when looking at local results. For instance, since the tool is using averages, if you live near a particularly nice park our tool
+      may significantly undervalue it. Distances are shown from the centre of the postcode to the nearest defined access point. Green spaces without defined access points may not be included. This tool should not be used to help value your home.</p>
 
-    <p>Public green space data comes from Ordnance Survey, who define publicly accessible green space as public parks or gardens, play spaces, playing fields, sports facilities, golf courses, allotments or community growing spaces, and religious grounds and cemeteries. These spaces may contain natural land cover and can also include some "blue space" like canals, rivers and lakes.</p>
+    <p>Public green space data comes from Ordnance Survey, who define publicly accessible green space as public parks or gardens, play spaces, playing fields, sports facilities, golf courses, allotments or community growing spaces, and religious
+      grounds and cemeteries. These spaces may contain natural land cover and can also include some "blue space" like canals, rivers and lakes.</p>
 
     <p><a href="mailto:natural.capital.team@ons.gov.uk">We’d welcome feedback on this interactive.</a></p>
 
@@ -769,7 +784,7 @@ span.greenText{
       getCodes1(document.getElementById("postcodeInput").value)
     });
 
-    if(pymChild) pymChild.sendHeight();
+    if (pymChild) pymChild.sendHeight();
 
     function getCodes1(myValue2) {
 
@@ -836,9 +851,9 @@ span.greenText{
       if (propTypeCheck == true && propertyValueCheck == true && postcodeCheck == true) {
         getResultsButton()
         dataLayer.push({
-             'event': 'buttonClicked',
-             'selected': 'inputs valid'
-           })
+          'event': 'buttonClicked',
+          'selected': 'inputs valid'
+        })
       } else {
         disableResultsButton()
       }
@@ -862,9 +877,9 @@ span.greenText{
       $("#pcError").text("")
       pymChild.sendHeight()
       dataLayer.push({
-           'event': 'buttonClicked',
-           'selected': 'Show page 1'
-         })
+        'event': 'buttonClicked',
+        'selected': 'Show page 1'
+      })
     }
 
     function showPage2() {
@@ -872,9 +887,9 @@ span.greenText{
       d3.select('#page2').classed('d-none', false)
 
       dataLayer.push({
-           'event': 'buttonClicked',
-           'selected': 'Show page 2'
-         })
+        'event': 'buttonClicked',
+        'selected': 'Show page 2'
+      })
 
       width = document.body.clientWidth
 
@@ -905,11 +920,11 @@ span.greenText{
         .fill("#0F8243")
         .on('onchange', function(d) {
           dataLayer.push({
-               'event': 'mapDropSelect',
-               'selected': sliderSimple.value()
-             })
+            'event': 'mapDropSelect',
+            'selected': sliderSimple.value()
+          })
           var el = document.getElementById('valueDueToGreenSpace')
-          el.innerHTML = d3.format(".0f")(Math.round((propertyprice * percentageDueToGreenSpace(myArray, sliderSimple.value()))/10)*10)
+          el.innerHTML = d3.format(".0f")(Math.round((propertyprice * percentageDueToGreenSpace(myArray, sliderSimple.value())) / 10) * 10)
         });
 
       d3.select('div#slider').selectAll("*").remove()
@@ -1038,7 +1053,11 @@ span.greenText{
       //
       //   })
 
-      if(postcodeiodata.result.country=="Wales"){region="Wales"}else{region=postcodeiodata.result.region}
+      if (postcodeiodata.result.country == "Wales") {
+        region = "Wales"
+      } else {
+        region = postcodeiodata.result.region
+      }
 
       myData = percentageData.filter(function(d) {
         return d.Region == region
@@ -1046,11 +1065,11 @@ span.greenText{
         return d.property_type_condensed == propertyTypeValue
       })
       myArray = createArray(myData[0])
-      document.getElementById('valueDueToGreenSpace').innerHTML = d3.format(".0f")(Math.round((propertyprice * percentageDueToGreenSpace(myArray, Math.round(distanceToGreenSpace/25)*25))/10)*10)
+      document.getElementById('valueDueToGreenSpace').innerHTML = d3.format(".0f")(Math.round((propertyprice * percentageDueToGreenSpace(myArray, Math.round(distanceToGreenSpace / 25) * 25)) / 10) * 10)
 
       dataLayer.push({
-      	"event": "lineDropSelect",
-      	"selected": distanceToGreenSpace+','+propertyTypeValue+','+region
+        "event": "lineDropSelect",
+        "selected": distanceToGreenSpace + ',' + propertyTypeValue + ',' + region
       })
 
 

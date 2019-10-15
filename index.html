@@ -56,6 +56,11 @@
     margin-bottom:0px;
   }
 
+  p.bigger{
+    font-size: 18px;
+
+  }
+
   label {
     display: block;
     width: 100%;
@@ -72,6 +77,7 @@
     border: none;
     padding: 0;
     width: 100%;
+    margin:0;
   }
 
 	#header{
@@ -592,7 +598,7 @@ span.greenText{
         <legend>Find out the value that green space adds to your home</legend>
 
         <label for="postcodeInput">Enter a postcode in England and Wales</label>
-        <p>This tool only uses data for urban areas</p>
+        <p class="bigger">This tool only uses data for urban areas</p>
         <div id="specialBorder" class="borderbox input-group">
           <input id="postcodeInput" style="text-transform:uppercase;" type="text" class="search-control;" placeholder="">
           <!-- <div class="input-group-addon search-group">
@@ -647,7 +653,7 @@ span.greenText{
       </div>
     </div>
     <h3>Your nearest public green space<span id="grammar"> is a</span> <span id="typeOfGreenSpace" class="greenText">[I haven't fixed this yet]</span>, <span class="greenText" id=distance></span> metres from your home.</h3>
-    <p>Move the slider to see what difference being nearer or further away from public green space would make to the value.</p>
+    <p class="bigger">Move the slider to see what difference being nearer or further away from public green space would make to the value.</p>
     <div id="slider"></div>
 
     <div id='map'>

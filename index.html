@@ -968,7 +968,7 @@ span.greenText{
         center: [postcodeiodata.result.longitude, postcodeiodata.result.latitude], // starting position
         zoom: 13, // starting zoom
         // pitch: 75,
-        maxZoom: 20, //
+        maxZoom: 14, //
         minZoom: 4,
         attributionControl: false
       });
@@ -1017,7 +1017,10 @@ span.greenText{
           "type": "fill",
           "source": {
             "type": 'vector',
-            "tiles": ['https://cdn.ons.gov.uk/maptiles/t19/{z}/{x}/{y}.pbf']
+            // "tiles": ['https://cdn.ons.gov.uk/maptiles/t19/{z}/{x}/{y}.pbf']
+            "tiles": ['http://127.0.0.1:8080/tiles/{z}/{x}/{y}.pbf']
+
+
           },
           "source-layer": "greenspace",
           "background-color": "#ccc",
@@ -1033,7 +1036,9 @@ span.greenText{
           "type": "line",
           "source": {
             "type": 'vector',
-            "tiles": ['https://cdn.ons.gov.uk/maptiles/t19/{z}/{x}/{y}.pbf']
+            // "tiles": ['https://cdn.ons.gov.uk/maptiles/t19/{z}/{x}/{y}.pbf']
+            "tiles": ['http://127.0.0.1:8080/tiles/{z}/{x}/{y}.pbf']
+
           },
           "source-layer": "greenspace",
           "paint": {

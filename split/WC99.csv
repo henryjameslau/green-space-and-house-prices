@@ -1,0 +1,3 @@
+"pcd","long","lat","dist_to_nearest_public_park_or_garden","area_of_nearest_public_park_or_garden","site_id","accesspoint_id","pcd_start","pcd_end","accesslon","accesslat"
+"WC990LF",-0.123769,51.51633,256.1978,7775.725,"81B33371-CADB-33F1-E053-A03BA40A2BEA","C150DB0C-43E0-4B93-A8A0-9D0A57A868B5","WC99","0LF",51.51859,-0.1230837
+"WC999AP",-0.125446,51.51165,84.29631,1502.13,"81B3347B-6EE9-33F1-E053-A03BA40A2BEA","2DE0D7E1-7A5F-492E-BC92-EF203310B4C0","WC99","9AP",51.51123,-0.1244317

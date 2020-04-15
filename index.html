@@ -968,7 +968,7 @@ span.greenText{
         center: [postcodeiodata.result.longitude, postcodeiodata.result.latitude], // starting position
         zoom: 13, // starting zoom
         // pitch: 75,
-        maxZoom: 14, //
+        maxZoom: 20, //
         minZoom: 4,
         attributionControl: false
       });
@@ -1019,8 +1019,6 @@ span.greenText{
             "type": 'vector',
             // "tiles": ['https://cdn.ons.gov.uk/maptiles/t19/{z}/{x}/{y}.pbf']
             "tiles": ['http://127.0.0.1:8080/tiles/{z}/{x}/{y}.pbf']
-
-
           },
           "source-layer": "greenspace",
           "background-color": "#ccc",
@@ -1028,8 +1026,10 @@ span.greenText{
             'fill-color': "#0F8243",
             'fill-opacity': 0.6
           },
-          // "filter":["==",]
+          "filter":["==","function","Public Park Or Garden"]
         })
+
+        //// TODO: figure out how to show more than one type, don't forget to turn on liveserver
 
         map.addLayer({
           "id": "greenspaces-outline",

@@ -796,7 +796,7 @@ span.greenText{
               d3.csv("/split/" + data1.result.outcode + ".csv", function(data) {
                 console.log(data)
                 row = data.filter(function(e) {
-                  return e.postcode_end == data1.result.incode
+                  return e.pcd_end == data1.result.incode
                 })
                 // if (row[0].urban == 0) {
                 //   d3.select('#postcodeInput').classed('incorrect', true)

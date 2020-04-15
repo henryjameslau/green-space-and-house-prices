@@ -8,7 +8,7 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <title>Access to green spaces and urban house prices</title>
+  <title>Access to parks</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
   <link href='css/mapbox-gl.css' rel='stylesheet' />
@@ -176,7 +176,14 @@
     /* font-size: 1.3em; */
 }
 
+#pcError{
+  height:40px;
+}
 
+#pcErrorText{
+  line-height: 40px;
+  padding-left:10px;
+}
 
 .visuallyhidden {
   display: none;
@@ -609,9 +616,9 @@ span.greenText{
       </div> -->
         </div>
 
-        <!-- <div>
-      <p id="pcError"></p>
-    </div> -->
+        <div id="pcError">
+      <p id=#pcErrorText></p>
+    </div>
 
         <!-- <div class="row">
           <div class="col-xs-12 col-sm-6">
@@ -648,15 +655,16 @@ span.greenText{
   <div id="page2" class="d-none">
   <!-- <div id="page2"> -->
 
-    <div class="results_box results_box--blue">
-      <h4>The estimated value added to your property by green space is</h4>
+    <!-- <div class="results_box results_box--blue">
+      <h4>The nearest public park or garden is</h4>
       <div class="results_text">
-        <h3 style="margin-top:22px;margin-bottom:0;" class="odometer" id="valueDueToGreenSpace">10000</h3>
+        <h3 style="margin-top:22px;margin-bottom:0;" id="distance">10000</h3>
       </div>
-    </div>
-    <h3>Your nearest public green space<span id="grammar"> is a</span> <span id="typeOfGreenSpace" class="greenText">[I haven't fixed this yet]</span>, <span class="greenText" id=distance></span> metres from your home.</h3>
-    <p class="bigger">Move the slider to see what difference being nearer or further away from public green space would make to the value.</p>
-    <div id="slider"></div>
+      <h4>metres from your home.</h4>
+    </div> -->
+    <h3>Your nearest public park or garden is <span class="greenText" id=distance></span> metres from your home.</h3>
+    <!-- <p class="bigger">Move the slider to see what difference being nearer or further away from public green space would make to the value.</p>
+    <div id="slider"></div> -->
 
     <div id='map'>
     </div>
@@ -711,7 +719,7 @@ span.greenText{
     var pymChild = new pym.Child();;
     //load percentage data and store it globally
 
-    postcodeCheck = false;
+    // postcodeCheck = false;
     myArray = [];
 
     // anElement = new AutoNumeric('#property', 0, {
@@ -781,9 +789,12 @@ span.greenText{
         url: myURIstring,
         error: function(xhr, ajaxOptions, thrownError) {
           console.log("error")
-          d3.select('#postcodeInput').classed('incorrect', true);
-          d3.select('#specialBorder').classed('redBorder', true)
-          document.getElementById("postcodeInput").value = "Sorry, that's not a valid postcode."
+          // d3.select('#postcodeInput').classed('incorrect', true);
+          // d3.select('#specialBorder').classed('redBorder', true)
+          //
+          d3.select("#pcError").select('p').style("line-height","40px").text("Sorry, that's not a valid postcode.")
+          .classed('redBorder', true)
+          .classed('incorrect', true);
         },
         success: function(data1) {
           console.log(data1)
@@ -792,19 +803,20 @@ span.greenText{
             // if (data1.result.country == "England" || data1.result.country == "Wales") {
               //check whether urban area
               postcodeiodata = data1;
-
-              d3.csv("/split/" + data1.result.outcode + ".csv", function(data) {
-                console.log(data)
+              console.log("split/" + data1.result.outcode + ".csv")
+              d3.csv("split/" + data1.result.outcode + ".csv", function(data) {
                 row = data.filter(function(e) {
                   return e.pcd_end == data1.result.incode
                 })
+
+                console.log(row)
                 // if (row[0].urban == 0) {
                 //   d3.select('#postcodeInput').classed('incorrect', true)
                 //   d3.select('#specialBorder').classed('redBorder', true)
                 //   var currPostcode = document.getElementById("postcodeInput").value
                 //   document.getElementById("postcodeInput").value = "Sorry, " + currPostcode.toUpperCase() + " is not in an urban area"
                 // } else if (row[0].urban == 1) {
-                  postcodeCheck = true
+                  // postcodeCheck = true
                   d3.select('#postcodeInput').classed('correct', true)
                   // $("#pcError").text("We have data about your postcode.")
                   showPage2();
@@ -861,7 +873,6 @@ span.greenText{
     function showpage1() {
       d3.select('#page1').classed('d-none', false)
       d3.select('#page2').classed('d-none', true)
-      $("#pcError").text("")
       pymChild.sendHeight()
       dataLayer.push({
         'event': 'buttonClicked',
@@ -880,75 +891,75 @@ span.greenText{
 
       width = document.body.clientWidth
 
-      // SLIDERS
-      var sliderSimple = d3
-        .sliderBottom()
-        .min(0)
-        .max(500)
-        .width(width - 60)
-        .tickFormat(d3.format(',.0f'))
-        .displayFormat(function(d) {
-          if (+d == 500) {
-            return '500+m'
-          } else {
-            return d + 'm'
-          }
-        })
-        .ticks(5)
-        .step(25)
-        .default(250)
-        .startingText("")
-        // .startingValue(200)
-        .handle(
-          d3.symbol()
-          .type(d3.symbolCircle)
-          .size(500)
-        )
-        .fill("#0F8243")
-        .on('onchange', function(d) {
-          dataLayer.push({
-            'event': 'mapDropSelect',
-            'selected': sliderSimple.value()
-          })
-          var el = document.getElementById('valueDueToGreenSpace')
-          el.innerHTML = d3.format(".0f")(Math.round((propertyprice * percentageDueToGreenSpace(myArray, sliderSimple.value())) / 10) * 10)
-        });
+      // // SLIDERS
+      // var sliderSimple = d3
+      //   .sliderBottom()
+      //   .min(0)
+      //   .max(500)
+      //   .width(width - 60)
+      //   .tickFormat(d3.format(',.0f'))
+      //   .displayFormat(function(d) {
+      //     if (+d == 500) {
+      //       return '500+m'
+      //     } else {
+      //       return d + 'm'
+      //     }
+      //   })
+      //   .ticks(5)
+      //   .step(25)
+      //   .default(250)
+      //   .startingText("")
+      //   // .startingValue(200)
+      //   .handle(
+      //     d3.symbol()
+      //     .type(d3.symbolCircle)
+      //     .size(500)
+      //   )
+      //   .fill("#0F8243")
+      //   .on('onchange', function(d) {
+      //     dataLayer.push({
+      //       'event': 'mapDropSelect',
+      //       'selected': sliderSimple.value()
+      //     })
+      //     var el = document.getElementById('valueDueToGreenSpace')
+      //     el.innerHTML = d3.format(".0f")(Math.round((propertyprice * percentageDueToGreenSpace(myArray, sliderSimple.value())) / 10) * 10)
+      //   });
+      //
+      // d3.select('div#slider').selectAll("*").remove()
+      //
+      // var gSimple = d3
+      //   .select('div#slider')
+      //   .append('svg')
+      //   .attr('height', 105)
+      //   .attr('width', width)
+      //   .append('g')
+      //   .attr('transform', 'translate(20,30)');
 
-      d3.select('div#slider').selectAll("*").remove()
-
-      var gSimple = d3
-        .select('div#slider')
-        .append('svg')
-        .attr('height', 105)
-        .attr('width', width)
-        .append('g')
-        .attr('transform', 'translate(20,30)');
-
-      gSimple.call(sliderSimple);
+      // gSimple.call(sliderSimple);
 
       //check if more than 500m away?
-      if (+row[0].distance_to_nearest_pags > 500) {
-        sliderSimple.value(500)
-        d3.select('#distance').text("more than 500")
-        distanceToGreenSpace = 500
-      } else {
-        sliderSimple.value(+row[0].distance_to_nearest_pags)
-        d3.select('#distance').text(d3.format(",.0f")(+row[0].distance_to_nearest_pags))
-        distanceToGreenSpace = +row[0].distance_to_nearest_pags
-      }
-
+      // if (+row[0].distance_to_nearest_pags > 500) {
+      //   sliderSimple.value(500)
+      //   d3.select('#distance').text("more than 500")
+      //   distanceToGreenSpace = 500
+      // } else {
+      //   sliderSimple.value(+row[0].distance_to_nearest_pags)
+      //   d3.select('#distance').text(d3.format(",.0f")(+row[0].distance_to_nearest_pags))
+      //   distanceToGreenSpace = +row[0].distance_to_nearest_pags
+      // }
+      d3.select('#distance').text(d3.format(",.0f")(+row[0].dist_to_nearest_public_park_or_garden))
       //type of green space
-      if (row[0]["function."] == "Allotments Or Community Growing Spaces" || row[0]["function."] == "Religious Grounds") {
-        d3.select("#grammar").text("s are")
-      } else {
-        d3.select("#grammar").text(" is a")
-      }
-
-      if (row[0]["function."] == "Other Sports Facility") {
-        d3.select("#typeOfGreenSpace").text("sports facility")
-      } else {
-        d3.select("#typeOfGreenSpace").text(row[0]["function."].toLowerCase())
-      }
+      // if (row[0]["function."] == "Allotments Or Community Growing Spaces" || row[0]["function."] == "Religious Grounds") {
+      //   d3.select("#grammar").text("s are")
+      // } else {
+      //   d3.select("#grammar").text(" is a")
+      // }
+      //
+      // if (row[0]["function."] == "Other Sports Facility") {
+      //   d3.select("#typeOfGreenSpace").text("sports facility")
+      // } else {
+      //   d3.select("#typeOfGreenSpace").text(row[0]["function."].toLowerCase())
+      // }
 
 
       map = new mapboxgl.Map({
@@ -1013,7 +1024,8 @@ span.greenText{
           "paint": {
             'fill-color': "#0F8243",
             'fill-opacity': 0.6
-          }
+          },
+          // "filter":["==",]
         })
 
         map.addLayer({
@@ -1028,35 +1040,39 @@ span.greenText{
             "line-color": "#00541a",
             "line-width": 2
           },
-          "filter": ["==", "id", row[0].pags_id]
+          "filter": ["==", "id", row[0].site_id]
         })
       })
 
-      // map.on('load', function() {
-      //     today = new Date();
-      //     copyYear = today.getFullYear();
-      //     map.style.sourceCaches['area']._source.attribution = "Contains OS data &copy; Crown copyright and database right " + copyYear;
-      //
-      //
-      //   })
+      map.on('click',function(e){
+        var features = map.queryRenderedFeatures(e.point);
+        console.log(features)
 
-      if (postcodeiodata.result.country == "Wales") {
-        region = "Wales"
-      } else {
-        region = postcodeiodata.result.region
-      }
-
-      myData = percentageData.filter(function(d) {
-        return d.Region == region
-      }).filter(function(d) {
-        return d.property_type_condensed == propertyTypeValue
       })
-      myArray = createArray(myData[0])
-      document.getElementById('valueDueToGreenSpace').innerHTML = d3.format(".0f")(Math.round((propertyprice * percentageDueToGreenSpace(myArray, Math.round(distanceToGreenSpace / 25) * 25)) / 10) * 10)
+
+      map.on('load', function() {
+          today = new Date();
+          copyYear = today.getFullYear();
+          map.style.sourceCaches['area']._source.attribution = "Contains OS data &copy; Crown copyright and database right " + copyYear;
+        })
+
+      // if (postcodeiodata.result.country == "Wales") {
+      //   region = "Wales"
+      // } else {
+      //   region = postcodeiodata.result.region
+      // }
+
+      // myData = percentageData.filter(function(d) {
+      //   return d.Region == region
+      // }).filter(function(d) {
+      //   return d.property_type_condensed == propertyTypeValue
+      // })
+      // myArray = createArray(myData[0])
+      // document.getElementById('valueDueToGreenSpace').innerHTML = d3.format(".0f")(Math.round((propertyprice * percentageDueToGreenSpace(myArray, Math.round(distanceToGreenSpace / 25) * 25)) / 10) * 10)
 
       dataLayer.push({
         "event": "lineDropSelect",
-        "selected": distanceToGreenSpace + ',' + propertyTypeValue + ',' + region
+        "selected": +row[0].dist_to_nearest_public_park_or_garden + ',' + postcodeiodata.result.region
       })
 
 

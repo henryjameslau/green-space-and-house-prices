@@ -617,8 +617,8 @@ span.greenText{
         </div>
 
         <div id="pcError">
-      <p id=#pcErrorText></p>
-    </div>
+          <p id=#pcErrorText></p>
+        </div>
 
         <!-- <div class="row">
           <div class="col-xs-12 col-sm-6">
@@ -653,7 +653,7 @@ span.greenText{
   </div>
 
   <div id="page2" class="d-none">
-  <!-- <div id="page2"> -->
+    <!-- <div id="page2"> -->
 
     <!-- <div class="results_box results_box--blue">
       <h4>The nearest public park or garden is</h4>
@@ -792,37 +792,37 @@ span.greenText{
           // d3.select('#postcodeInput').classed('incorrect', true);
           // d3.select('#specialBorder').classed('redBorder', true)
           //
-          d3.select("#pcError").select('p').style("line-height","40px").text("Sorry, that's not a valid postcode.")
-          .classed('redBorder', true)
-          .classed('incorrect', true);
+          d3.select("#pcError").select('p').style("line-height", "40px").text("Sorry, that's not a valid postcode.")
+            .classed('redBorder', true)
+            .classed('incorrect', true);
         },
         success: function(data1) {
           console.log(data1)
           if (data1.status == 200) {
             //check if in England and Wales
             // if (data1.result.country == "England" || data1.result.country == "Wales") {
-              //check whether urban area
-              postcodeiodata = data1;
-              console.log("split/" + data1.result.outcode + ".csv")
-              d3.csv("split/" + data1.result.outcode + ".csv", function(data) {
-                row = data.filter(function(e) {
-                  return e.pcd_end == data1.result.incode
-                })
-
-                console.log(row)
-                // if (row[0].urban == 0) {
-                //   d3.select('#postcodeInput').classed('incorrect', true)
-                //   d3.select('#specialBorder').classed('redBorder', true)
-                //   var currPostcode = document.getElementById("postcodeInput").value
-                //   document.getElementById("postcodeInput").value = "Sorry, " + currPostcode.toUpperCase() + " is not in an urban area"
-                // } else if (row[0].urban == 1) {
-                  // postcodeCheck = true
-                  d3.select('#postcodeInput').classed('correct', true)
-                  // $("#pcError").text("We have data about your postcode.")
-                  showPage2();
-                // }
-
+            //check whether urban area
+            postcodeiodata = data1;
+            console.log("split/" + data1.result.outcode + ".csv")
+            d3.csv("split/" + data1.result.outcode + ".csv", function(data) {
+              row = data.filter(function(e) {
+                return e.pcd_end == data1.result.incode
               })
+
+              console.log(row)
+              // if (row[0].urban == 0) {
+              //   d3.select('#postcodeInput').classed('incorrect', true)
+              //   d3.select('#specialBorder').classed('redBorder', true)
+              //   var currPostcode = document.getElementById("postcodeInput").value
+              //   document.getElementById("postcodeInput").value = "Sorry, " + currPostcode.toUpperCase() + " is not in an urban area"
+              // } else if (row[0].urban == 1) {
+              // postcodeCheck = true
+              d3.select('#postcodeInput').classed('correct', true)
+              // $("#pcError").text("We have data about your postcode.")
+              showPage2();
+              // }
+
+            })
             // } else {
             //   d3.select('#postcodeInput').classed('incorrect', true)
             //   d3.select('#specialBorder').classed('redBorder', true)
@@ -1026,7 +1026,7 @@ span.greenText{
             'fill-color': "#0F8243",
             'fill-opacity': 0.6
           },
-          "filter":["==","function","Public Park Or Garden"]
+          "filter":["any",["==","function","Public Park Or Garden"],["==","function","Playing Field"]]
         })
 
         //// TODO: figure out how to show more than one type, don't forget to turn on liveserver
@@ -1049,17 +1049,17 @@ span.greenText{
         })
       })
 
-      map.on('click',function(e){
+      map.on('click', function(e) {
         var features = map.queryRenderedFeatures(e.point);
         console.log(features)
 
       })
 
       map.on('load', function() {
-          today = new Date();
-          copyYear = today.getFullYear();
-          map.style.sourceCaches['area']._source.attribution = "Contains OS data &copy; Crown copyright and database right " + copyYear;
-        })
+        today = new Date();
+        copyYear = today.getFullYear();
+        map.style.sourceCaches['area']._source.attribution = "Contains OS data &copy; Crown copyright and database right " + copyYear;
+      })
 
       // if (postcodeiodata.result.country == "Wales") {
       //   region = "Wales"

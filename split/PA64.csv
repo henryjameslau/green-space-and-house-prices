@@ -1,5 +1,2 @@
-"pcd","long","lat","dist_to_nearest_public_park_or_garden","area_of_nearest_public_park_or_garden","site_id","accesspoint_id","pcd_start","pcd_end","accesslon","accesslat"
-"PA646AB",-5.686131,56.43777,15653.17,3325.334,"81B33301-0F29-33F1-E053-A03BA40A2BEA","527C3177-134F-40E3-B07E-3B35ED4C385A","PA64","6AB",56.41056,-5.436389
-"PA646AP",-5.686131,56.43777,15653.17,3325.334,"81B33301-0F29-33F1-E053-A03BA40A2BEA","527C3177-134F-40E3-B07E-3B35ED4C385A","PA64","6AP",56.41056,-5.436389
-"PA646AR",-5.680986,56.44123,15422.69,3325.334,"81B33301-0F29-33F1-E053-A03BA40A2BEA","527C3177-134F-40E3-B07E-3B35ED4C385A","PA64","6AR",56.41056,-5.436389
-"PA646WZ",-5.707644,56.47108,14497.83,84.6245,"81B33303-EE58-33F1-E053-A03BA40A2BEA","CF4277A4-A300-4505-9FE7-125009D9880D","PA64","6WZ",56.55018,-5.895489
+"X","postcode","lsoa","id_greenspace","greenspace_description","nearest_greenspace_area_m2","nearest_greenspace_distance_m","greenspace_count_1000_m_radius","greenspace_area_sum_1000_m_radius","lsoa_population_per_pcd","distance_category","lsoa_mean_nearest_greenspace_distance_m","lsoa_mean_nearest_greenspace_area_m2","lsoa_mean_greenspace_count_1000_m_radius","lsoa_mean_greenspace_area_sum_1000_m_radius","popbypark","pcds","pcd_start","pcd_end","pcd_nospace"
+1538041,"PA646AB","S01007288","9E8910ED-84B0-2C71-E053-A03BA40A7146","Playing Field",17457.2766999963,8843.529,1,17457,18.4838709677419,"Greater than 1800m",14051.304537037,170891.858088889,1,170891.333333333,352.758684863523,"PA64 6AB","PA64","6AB","PA646AB"

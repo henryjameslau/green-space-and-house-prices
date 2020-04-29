@@ -1,3 +1,2 @@
-"pcd","long","lat","dist_to_nearest_public_park_or_garden","area_of_nearest_public_park_or_garden","site_id","accesspoint_id","pcd_start","pcd_end","accesslon","accesslat"
-"PH424RL",-6.142749,56.90188,32651.64,1480895,"81B33392-30CA-33F1-E053-A03BA40A2BEA","04ECA97E-8D01-4F03-9687-1CC8FFA40181","PH42","4RL",56.61199,-6.057342
-"PH424RP",-6.240509,56.83426,27123.71,1480895,"81B33392-30CA-33F1-E053-A03BA40A2BEA","04ECA97E-8D01-4F03-9687-1CC8FFA40181","PH42","4RP",56.61199,-6.057342
+"X","postcode","lsoa","id_greenspace","greenspace_description","nearest_greenspace_area_m2","nearest_greenspace_distance_m","greenspace_count_1000_m_radius","greenspace_area_sum_1000_m_radius","lsoa_population_per_pcd","distance_category","lsoa_mean_nearest_greenspace_distance_m","lsoa_mean_nearest_greenspace_area_m2","lsoa_mean_greenspace_count_1000_m_radius","lsoa_mean_greenspace_area_sum_1000_m_radius","popbypark","pcds","pcd_start","pcd_end","pcd_nospace"
+1488809,"PH424RL","S01010504","9E891036-C898-2C71-E053-A03BA40A7146","Playing Field",1289.94470000062,9025.8125,1,1289,28.65,"Greater than 1800m",5724.16305,4082.04877999913,1.3,5453.5,85.95,"PH42 4RL","PH42","4RL","PH424RL"

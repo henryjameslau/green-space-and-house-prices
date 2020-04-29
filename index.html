@@ -662,7 +662,9 @@ span.greenText{
       </div>
       <h4>metres from your home.</h4>
     </div> -->
-    <h3>Your nearest public park or garden is <span class="greenText" id=distance></span> metres from your home.</h3>
+    <h3>Your nearest public <span class="greenText" id="greenspacetype">playing field</span> is <span class="greenText" id=distance></span> metres from your home.</h3>
+    <h3>This is <span class="greenText" id="distancecomparison">closer/further away</span> than the average for your neighbourhood which is <span class="greenText" id="averagedistance"></span> metres.</h3><h3>This is <span class="greenText" id="natdistancecomparison"></span> than the average distance across Great Britain of <span class="greenText">491</span> metres.</h3>
+    <h3>This is the nearest <span class="greenText" id="greenspacetype2">playing field</span> for <span class="greenText" id="parkpop"></span> other people.</h3>
     <!-- <p class="bigger">Move the slider to see what difference being nearer or further away from public green space would make to the value.</p>
     <div id="slider"></div> -->
 
@@ -947,7 +949,27 @@ span.greenText{
       //   d3.select('#distance').text(d3.format(",.0f")(+row[0].distance_to_nearest_pags))
       //   distanceToGreenSpace = +row[0].distance_to_nearest_pags
       // }
-      d3.select('#distance').text(d3.format(",.0f")(+row[0].dist_to_nearest_public_park_or_garden))
+      d3.select('#distance').text(d3.format(",.0f")(+row[0].nearest_greenspace_distance_m))
+
+      d3.select('#greenspacetype').text(row[0].greenspace_description.toLowerCase())
+      d3.select('#greenspacetype2').text(row[0].greenspace_description.toLowerCase())
+      d3.select('#distancecomparison').text(function() {
+        if (+row[0].nearest_greenspace_distance_m > +row[0].lsoa_mean_nearest_greenspace_distance_m) {
+          return "further away"
+        } else {
+          return "closer"
+        }
+      })
+      d3.select("#averagedistance").text(d3.format(",.0f")(+row[0].lsoa_mean_nearest_greenspace_distance_m))
+      d3.select("#parkpop").text(d3.format(",.0f")(Math.round(+row[0].popbypark/100))*100)
+      d3.select('#natdistancecomparison').text(function() {
+        if (+row[0].nearest_greenspace_distance_m > 491) {
+          return "further away"
+        } else {
+          return "closer"
+        }
+      })
+
       //type of green space
       // if (row[0]["function."] == "Allotments Or Community Growing Spaces" || row[0]["function."] == "Religious Grounds") {
       //   d3.select("#grammar").text("s are")
@@ -996,9 +1018,9 @@ span.greenText{
       //leaf marker
       var el2 = document.createElement('div');
       el2.className = 'marker2';
-      new mapboxgl.Marker(el2)
-        .setLngLat([+row[0].accesslat, +row[0].accesslon])
-        .addTo(map);
+      // new mapboxgl.Marker(el2)
+      //   .setLngLat([+row[0].accesslat, +row[0].accesslon])
+      //   .addTo(map);
 
       //house marker
       //create a HTML element for each feature
@@ -1017,8 +1039,8 @@ span.greenText{
           "type": "fill",
           "source": {
             "type": 'vector',
-            // "tiles": ['https://cdn.ons.gov.uk/maptiles/t19/{z}/{x}/{y}.pbf']
-            "tiles": ['http://127.0.0.1:8080/tiles/{z}/{x}/{y}.pbf']
+            "tiles": ['https://cdn.ons.gov.uk/maptiles/t19/{z}/{x}/{y}.pbf']
+            // "tiles": ['http://127.0.0.1:8080/tiles/{z}/{x}/{y}.pbf']
           },
           "source-layer": "greenspace",
           "background-color": "#ccc",
@@ -1026,7 +1048,9 @@ span.greenText{
             'fill-color': "#0F8243",
             'fill-opacity': 0.6
           },
-          "filter":["any",["==","function","Public Park Or Garden"],["==","function","Playing Field"]]
+          "filter": ["any", ["==", "function", "Public Park Or Garden"],
+            ["==", "function", "Playing Field"]
+          ]
         })
 
         //// TODO: figure out how to show more than one type, don't forget to turn on liveserver
@@ -1036,8 +1060,8 @@ span.greenText{
           "type": "line",
           "source": {
             "type": 'vector',
-            // "tiles": ['https://cdn.ons.gov.uk/maptiles/t19/{z}/{x}/{y}.pbf']
-            "tiles": ['http://127.0.0.1:8080/tiles/{z}/{x}/{y}.pbf']
+            "tiles": ['https://cdn.ons.gov.uk/maptiles/t19/{z}/{x}/{y}.pbf']
+            // "tiles": ['http://127.0.0.1:8080/tiles/{z}/{x}/{y}.pbf']
 
           },
           "source-layer": "greenspace",
@@ -1045,7 +1069,7 @@ span.greenText{
             "line-color": "#00541a",
             "line-width": 2
           },
-          "filter": ["==", "id", row[0].site_id]
+          "filter": ["==", "id", row[0].id_greenspace]
         })
       })
 
@@ -1075,10 +1099,10 @@ span.greenText{
       // myArray = createArray(myData[0])
       // document.getElementById('valueDueToGreenSpace').innerHTML = d3.format(".0f")(Math.round((propertyprice * percentageDueToGreenSpace(myArray, Math.round(distanceToGreenSpace / 25) * 25)) / 10) * 10)
 
-      dataLayer.push({
-        "event": "lineDropSelect",
-        "selected": +row[0].dist_to_nearest_public_park_or_garden + ',' + postcodeiodata.result.region
-      })
+      // dataLayer.push({
+      //   "event": "lineDropSelect",
+      //   "selected": +row[0].dist_to_nearest_public_park_or_garden + ',' + postcodeiodata.result.region
+      // })
 
 
       pymChild.sendHeight()

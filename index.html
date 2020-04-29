@@ -603,48 +603,15 @@ span.greenText{
     <form>
       <fieldset>
         <legend>Find parks close to you</legend>
-
         <label for="postcodeInput">Enter a postcode in England and Wales</label>
-        <!-- <p class="bigger">This tool only uses data for urban areas</p> -->
         <div id="specialBorder" class="borderbox input-group">
           <input id="postcodeInput" style="text-transform:uppercase;" type="text" class="search-control;" placeholder="">
-          <!-- <div class="input-group-addon search-group">
-        <button id="searchButton" type="submit" style="background: none;border:0;">
-          <span class="visuallyhidden">Search</span>
-          <span id="searchBox"><img src="./images/magnifying-glass.svg" alt="" height="25"></span>
-        </button>
-      </div> -->
         </div>
 
         <div id="pcError">
-          <p id=#pcErrorText></p>
+          <p id=pcErrorText></p>
         </div>
 
-        <!-- <div class="row">
-          <div class="col-xs-12 col-sm-6">
-            <label for="propertyType">Select the property type</label>
-
-            <select id="propertyType" class="chosen-select" data-placeholder="Select an option">
-              <option></option>
-              <option id="Terrace" value="Terraced">Terraced</option>
-              <option id="Semi" value="Semi-detached">Semi-detached</option>
-              <option id="Detached" value="Detached">Detached</option>
-              <option id="Flat" value="Flat">Flat</option>
-              <option id="Bungalow" value="Bungalow">Bungalow</option>
-            </select>
-
-          </div>
-          <div class="col-xs-12 col-sm-6">
-
-            <label for="property">Enter the property price</label>
-            <div class="borderbox" style="float:left;">
-              <div class="pound">£</div>
-              <input style="width:calc(100% - 40px); text-align:right;padding-right:5px;" class="bold" id='property' type="text" name="property">
-            </div>
-
-
-          </div>
-        </div> -->
       </fieldset>
       <div style="clear:left">
         <button id="startButton" type="button" class="btn btn-group__btn btn--primary btn--green">Get results</button>
@@ -653,25 +620,13 @@ span.greenText{
   </div>
 
   <div id="page2" class="d-none">
-    <!-- <div id="page2"> -->
-
-    <!-- <div class="results_box results_box--blue">
-      <h4>The nearest public park or garden is</h4>
-      <div class="results_text">
-        <h3 style="margin-top:22px;margin-bottom:0;" id="distance">10000</h3>
-      </div>
-      <h4>metres from your home.</h4>
-    </div> -->
     <h3>Your nearest public <span class="greenText" id="greenspacetype">playing field</span> is <span class="greenText" id=distance></span> metres from your home.</h3>
-    <h3>This is <span class="greenText" id="distancecomparison">closer/further away</span> than the average for your neighbourhood which is <span class="greenText" id="averagedistance"></span> metres.</h3><h3>This is <span class="greenText" id="natdistancecomparison"></span> than the average distance across Great Britain of <span class="greenText">491</span> metres.</h3>
+    <h3>This is <span class="greenText" id="distancecomparison">closer/further away</span> than the average for your neighbourhood which is <span class="greenText" id="averagedistance"></span> metres.</h3>
+    <h3>This is <span class="greenText" id="natdistancecomparison"></span> than the average distance across Great Britain of <span class="greenText">491</span> metres.</h3>
     <h3>This is the nearest <span class="greenText" id="greenspacetype2">playing field</span> for <span class="greenText" id="parkpop"></span> other people.</h3>
-    <!-- <p class="bigger">Move the slider to see what difference being nearer or further away from public green space would make to the value.</p>
-    <div id="slider"></div> -->
 
     <div id='map'>
     </div>
-
-
 
     <div class="row">
       <div class="col-sm-1 col-xs-12">
@@ -707,15 +662,12 @@ span.greenText{
 
   <script src="js/modernizr.min.js"></script>
   <script src="https://cdn.ons.gov.uk/vendor/d3/4.13.0/d3.min.js"></script>
-  <script src="https://cdn.ons.gov.uk/vendor/jquery/2.1.4/jquery.min.js"></script>
-  <script src="js/chosen.jquery.js"></script>
   <script src="https://cdn.ons.gov.uk/vendor/pym/1.3.2/pym.min.js"></script>
-  <script src="js/autonumeric.js"></script>
+
   <script src='js/mapbox-gl.js'></script>
-  <script src='js/odometer.min.js' type="text/javascript"></script>
-  <script src='js/d3-simple-slider.js' type="text/javascript"></script>
-  <script src="js/popper.min.js"></script>
-  <script src="js/tippy-bundle.min.js"></script>
+
+  <!-- <script src="js/popper.min.js"></script>
+  <script src="js/tippy-bundle.min.js"></script> -->
 
   <script type="application/javascript">
     var pymChild = new pym.Child();;
@@ -728,11 +680,15 @@ span.greenText{
     //   decimalPlaces: 0
     // });
 
-    document.getElementById('postcodeInput').onkeydown = function(event) {
-      if (event.keyCode == 13) {
-        getCodes1(document.getElementById("postcodeInput").value)
-      }
-    }
+    input=document.getElementById('postcodeInput')
+
+    // $('#postcodeInput').submit(function() {
+      // console.log(event)
+      // event.preventDefault();
+      // if (event.code == 13) {
+      //   getCodes1(document.getElementById("postcodeInput").value)
+      // }
+    // })
 
     d3.select('#startButton').on('click', function() {
       getCodes1(document.getElementById("postcodeInput").value)
@@ -743,42 +699,15 @@ span.greenText{
     })
 
 
-    // window.odometerOptions = {
-    //   auto: false,
-    //   selector: '#valueDueToGreenSpace',
-    //   format: '(,ddd)',
-    //   duration: 1000
-    // };
-
-    tippy('#link', {
-      placement: "top-start",
-      content: "Link copied to clipboard",
-      trigger: 'click',
-      duration: 1000,
-    })
-
-    // document.getElementById("searchButton").addEventListener("click", function() {
-    //   getCodes1(document.getElementById("postcodeInput").value)
+    // tippy('#link', {
+    //   placement: "top-start",
+    //   content: "Link copied to clipboard",
+    //   trigger: 'click',
+    //   duration: 1000,
     // })
-    // document.getElementById('postcodeInput').addEventListener('focusin', function() {
-    //   if (d3.select('#postcodeInput').classed('incorrect') == true) {
-    //     document.getElementById("postcodeInput").value = "";
-    //     d3.select('#specialBorder').classed('redBorder', false)
-    //     d3.select('#postcodeInput').classed('correct', false)
-    //     d3.select('#postcodeInput').classed('incorrect', false)
-    //   } else {
-    //     d3.select('#postcodeInput').classed('correct', false)
-    //     d3.select('#postcodeInput').classed('incorrect', false)
-    //   }
-    //
-    // });
-
-    // document.getElementById('postcodeInput').value=""
-    // document.getElementById('postcodeInput').addEventListener('focusout', function() {
-    //   getCodes1(document.getElementById("postcodeInput").value)
-    // });
 
     if (pymChild) pymChild.sendHeight();
+
 
     function getCodes1(myValue2) {
       console.log("getCodes")
@@ -791,12 +720,10 @@ span.greenText{
         url: myURIstring,
         error: function(xhr, ajaxOptions, thrownError) {
           console.log("error")
-          // d3.select('#postcodeInput').classed('incorrect', true);
-          // d3.select('#specialBorder').classed('redBorder', true)
-          //
-          d3.select("#pcError").select('p').style("line-height", "40px").text("Sorry, that's not a valid postcode.")
-            .classed('redBorder', true)
-            .classed('incorrect', true);
+
+          d3.select("#pcErrorText").text("Sorry, that's not a valid postcode.")
+          d3.select("#pcError")
+          .classed('incorrect', true);
         },
         success: function(data1) {
           console.log(data1)
@@ -812,143 +739,31 @@ span.greenText{
               })
 
               console.log(row)
-              // if (row[0].urban == 0) {
-              //   d3.select('#postcodeInput').classed('incorrect', true)
-              //   d3.select('#specialBorder').classed('redBorder', true)
-              //   var currPostcode = document.getElementById("postcodeInput").value
-              //   document.getElementById("postcodeInput").value = "Sorry, " + currPostcode.toUpperCase() + " is not in an urban area"
-              // } else if (row[0].urban == 1) {
-              // postcodeCheck = true
-              d3.select('#postcodeInput').classed('correct', true)
-              // $("#pcError").text("We have data about your postcode.")
               showPage2();
-              // }
-
             })
-            // } else {
-            //   d3.select('#postcodeInput').classed('incorrect', true)
-            //   d3.select('#specialBorder').classed('redBorder', true)
-            //   document.getElementById("postcodeInput").value = "Sorry, our data only covers England and Wales"
-            // }
-
           } else {
-            d3.select('#postcodeInput').classed('incorrect', true)
-            d3.select('#specialBorder').classed('redBorder', true)
-            document.getElementById("postcodeInput").value = "Sorry, that's not a valid postcode."
+            d3.select('#pcErrorText')
+            .classed('incorrect', true)
+            document.getElementById("pcErrorText").value = "Sorry, that's not a valid postcode."
           }
         }
       });
-    } //end getCodes1
-
-    // function checkInputs() {
-    //   if ($("#propertyType").chosen().val() != "") {
-    //     var propTypeCheck = true
-    //     propertyTypeValue = $('#propertyType').val()
-    //   }
-    //   if (anElement.getNumber() > 0 && document.getElementById("property").value != "") {
-    //     var propertyValueCheck = true
-    //   }
-    //
-    //   if (propTypeCheck == true && propertyValueCheck == true && postcodeCheck == true) {
-    //     getResultsButton()
-    //     dataLayer.push({
-    //       'event': 'buttonClicked',
-    //       'selected': 'inputs valid'
-    //     })
-    //   } else {
-    //     disableResultsButton()
-    //   }
-    // }
-
-    // function disableResultsButton() {
-    //   d3.select("#startButton").classed("btn--primary-disabled", true)
-    //   d3.select('#startButton').on('click', null)
-    // }
-    //
-    // function getResultsButton() {
-    //   d3.select("#startButton").classed("btn--primary-disabled", false)
-    //   d3.select('#startButton').on('click', function() {
-    //     showPage2()
-    //   })
-    // }
+    }
 
     function showpage1() {
       d3.select('#page1').classed('d-none', false)
       d3.select('#page2').classed('d-none', true)
       pymChild.sendHeight()
-      dataLayer.push({
-        'event': 'buttonClicked',
-        'selected': 'Show page 1'
-      })
+
     }
 
     function showPage2() {
       d3.select('#page1').classed('d-none', true)
       d3.select('#page2').classed('d-none', false)
 
-      dataLayer.push({
-        'event': 'buttonClicked',
-        'selected': 'Show page 2'
-      })
-
       width = document.body.clientWidth
 
-      // // SLIDERS
-      // var sliderSimple = d3
-      //   .sliderBottom()
-      //   .min(0)
-      //   .max(500)
-      //   .width(width - 60)
-      //   .tickFormat(d3.format(',.0f'))
-      //   .displayFormat(function(d) {
-      //     if (+d == 500) {
-      //       return '500+m'
-      //     } else {
-      //       return d + 'm'
-      //     }
-      //   })
-      //   .ticks(5)
-      //   .step(25)
-      //   .default(250)
-      //   .startingText("")
-      //   // .startingValue(200)
-      //   .handle(
-      //     d3.symbol()
-      //     .type(d3.symbolCircle)
-      //     .size(500)
-      //   )
-      //   .fill("#0F8243")
-      //   .on('onchange', function(d) {
-      //     dataLayer.push({
-      //       'event': 'mapDropSelect',
-      //       'selected': sliderSimple.value()
-      //     })
-      //     var el = document.getElementById('valueDueToGreenSpace')
-      //     el.innerHTML = d3.format(".0f")(Math.round((propertyprice * percentageDueToGreenSpace(myArray, sliderSimple.value())) / 10) * 10)
-      //   });
-      //
-      // d3.select('div#slider').selectAll("*").remove()
-      //
-      // var gSimple = d3
-      //   .select('div#slider')
-      //   .append('svg')
-      //   .attr('height', 105)
-      //   .attr('width', width)
-      //   .append('g')
-      //   .attr('transform', 'translate(20,30)');
 
-      // gSimple.call(sliderSimple);
-
-      //check if more than 500m away?
-      // if (+row[0].distance_to_nearest_pags > 500) {
-      //   sliderSimple.value(500)
-      //   d3.select('#distance').text("more than 500")
-      //   distanceToGreenSpace = 500
-      // } else {
-      //   sliderSimple.value(+row[0].distance_to_nearest_pags)
-      //   d3.select('#distance').text(d3.format(",.0f")(+row[0].distance_to_nearest_pags))
-      //   distanceToGreenSpace = +row[0].distance_to_nearest_pags
-      // }
       d3.select('#distance').text(d3.format(",.0f")(+row[0].nearest_greenspace_distance_m))
 
       d3.select('#greenspacetype').text(row[0].greenspace_description.toLowerCase())
@@ -961,7 +776,7 @@ span.greenText{
         }
       })
       d3.select("#averagedistance").text(d3.format(",.0f")(+row[0].lsoa_mean_nearest_greenspace_distance_m))
-      d3.select("#parkpop").text(d3.format(",.0f")(Math.round(+row[0].popbypark/100))*100)
+      d3.select("#parkpop").text(d3.format(",.0f")(Math.round(+row[0].popbypark / 100) * 100))
       d3.select('#natdistancecomparison').text(function() {
         if (+row[0].nearest_greenspace_distance_m > 491) {
           return "further away"
@@ -969,20 +784,6 @@ span.greenText{
           return "closer"
         }
       })
-
-      //type of green space
-      // if (row[0]["function."] == "Allotments Or Community Growing Spaces" || row[0]["function."] == "Religious Grounds") {
-      //   d3.select("#grammar").text("s are")
-      // } else {
-      //   d3.select("#grammar").text(" is a")
-      // }
-      //
-      // if (row[0]["function."] == "Other Sports Facility") {
-      //   d3.select("#typeOfGreenSpace").text("sports facility")
-      // } else {
-      //   d3.select("#typeOfGreenSpace").text(row[0]["function."].toLowerCase())
-      // }
-
 
       map = new mapboxgl.Map({
         container: 'map', // container id
@@ -999,10 +800,10 @@ span.greenText{
       map.addControl(new mapboxgl.NavigationControl());
 
       // Disable map rotation using right click + drag
-      // map.dragRotate.disable();
+      map.dragRotate.disable();
 
       // Disable map rotation using touch rotation gesture
-      // map.touchZoomRotate.disableRotation();
+      map.touchZoomRotate.disableRotation();
 
       //add compact attribution
       map.addControl(new mapboxgl.AttributionControl({
@@ -1032,7 +833,6 @@ span.greenText{
         .setLngLat([postcodeiodata.result.longitude, postcodeiodata.result.latitude])
         .addTo(map);
 
-
       map.on('load', function() {
         map.addLayer({
           "id": "greenspaces",
@@ -1047,31 +847,35 @@ span.greenText{
           "paint": {
             'fill-color': "#0F8243",
             'fill-opacity': 0.6
-          },
-          "filter": ["any", ["==", "function", "Public Park Or Garden"],
-            ["==", "function", "Playing Field"]
-          ]
+          }//,
+          // "filter": ["any", ["==", "function", "Public Park Or Garden"],
+          //   ["==", "function", "Playing Field"]
+          // ]
+
+          // note function isn't a field on the tiles, I need to reupload them
         })
 
         //// TODO: figure out how to show more than one type, don't forget to turn on liveserver
 
-        map.addLayer({
-          "id": "greenspaces-outline",
-          "type": "line",
-          "source": {
-            "type": 'vector',
-            "tiles": ['https://cdn.ons.gov.uk/maptiles/t19/{z}/{x}/{y}.pbf']
-            // "tiles": ['http://127.0.0.1:8080/tiles/{z}/{x}/{y}.pbf']
+        //this outline won't work unless the ID's for the greenspaces match
 
-          },
-          "source-layer": "greenspace",
-          "paint": {
-            "line-color": "#00541a",
-            "line-width": 2
-          },
-          "filter": ["==", "id", row[0].id_greenspace]
-        })
-      })
+      //   map.addLayer({
+      //     "id": "greenspaces-outline",
+      //     "type": "line",
+      //     "source": {
+      //       "type": 'vector',
+      //       "tiles": ['https://cdn.ons.gov.uk/maptiles/t19/{z}/{x}/{y}.pbf']
+      //       // "tiles": ['http://127.0.0.1:8080/tiles/{z}/{x}/{y}.pbf']
+      //
+      //     },
+      //     "source-layer": "greenspace",
+      //     "paint": {
+      //       "line-color": "#00541a",
+      //       "line-width": 2
+      //     },
+      //     "filter": ["==", "id", row[0].id_greenspace]
+      //   })
+    })//end map on load
 
       map.on('click', function(e) {
         var features = map.queryRenderedFeatures(e.point);
@@ -1085,72 +889,13 @@ span.greenText{
         map.style.sourceCaches['area']._source.attribution = "Contains OS data &copy; Crown copyright and database right " + copyYear;
       })
 
-      // if (postcodeiodata.result.country == "Wales") {
-      //   region = "Wales"
-      // } else {
-      //   region = postcodeiodata.result.region
-      // }
-
-      // myData = percentageData.filter(function(d) {
-      //   return d.Region == region
-      // }).filter(function(d) {
-      //   return d.property_type_condensed == propertyTypeValue
-      // })
-      // myArray = createArray(myData[0])
-      // document.getElementById('valueDueToGreenSpace').innerHTML = d3.format(".0f")(Math.round((propertyprice * percentageDueToGreenSpace(myArray, Math.round(distanceToGreenSpace / 25) * 25)) / 10) * 10)
-
-      // dataLayer.push({
-      //   "event": "lineDropSelect",
-      //   "selected": +row[0].dist_to_nearest_public_park_or_garden + ',' + postcodeiodata.result.region
-      // })
-
-
       pymChild.sendHeight()
 
     } //end showpage2 function
 
-    // function createArray(d) {
-    //   var array = []
-    //   array.push(+d.pc_diff_0)
-    //   array.push(+d.pc_diff_25)
-    //   array.push(+d.pc_diff_50)
-    //   array.push(+d.pc_diff_75)
-    //   array.push(+d.pc_diff_100)
-    //   array.push(+d.pc_diff_125)
-    //   array.push(+d.pc_diff_150)
-    //   array.push(+d.pc_diff_175)
-    //   array.push(+d.pc_diff_200)
-    //   array.push(+d.pc_diff_225)
-    //   array.push(+d.pc_diff_250)
-    //   array.push(+d.pc_diff_275)
-    //   array.push(+d.pc_diff_300)
-    //   array.push(+d.pc_diff_325)
-    //   array.push(+d.pc_diff_350)
-    //   array.push(+d.pc_diff_375)
-    //   array.push(+d.pc_diff_400)
-    //   array.push(+d.pc_diff_425)
-    //   array.push(+d.pc_diff_450)
-    //   array.push(+d.pc_diff_475)
-    //   array.push(0)
-    //   return array
-    // }
-
-    // function percentageDueToGreenSpace(array, distance) {
-    //   var distanceArray = [0, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 425, 450, 475, 50000000000]
-    //   var index = distanceArray.findIndex(function(d) {
-    //     return d > distance
-    //   })
-    //   var i = d3.interpolateNumber(array[index - 1], array[index])
-    //   if (distance >= 475) {
-    //     return i((distance - 475) / 25)
-    //   } else {
-    //     return i((distance - (distanceArray[index] - 25)) / 25)
-    //   }
-    // }
 
     function copyLink() {
       var dummy = document.createElement('input'),
-        // text = window.location.href;
         text = "https://www.ons.gov.uk/economy/environmentalaccounts/articles/urbangreenspacesraisenearbyhousepricesbyanaverageof2500/2019-10-14"
 
       document.body.appendChild(dummy);
